@@ -54,7 +54,8 @@ def detect_number(img, name):
                 if name == number:
                     status = True
         else:
-            print("not found car number "),
+            textArr.clear()
+            state = False
     return state, textArr, status
 
 def check(textArr):
