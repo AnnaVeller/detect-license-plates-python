@@ -1,7 +1,6 @@
 import cv2
 import model
 
-
 def detect_one_video(video, name=" "):
     count = 0
     cap = cv2.VideoCapture(video)
@@ -14,3 +13,5 @@ def detect_one_video(video, name=" "):
             count = 0
         else:
             count += 1
+
+    cv2.destroyAllWindows()
