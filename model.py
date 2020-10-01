@@ -3,6 +3,7 @@ import sys
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, Detector, \
         textPostprocessing, textPostprocessingAsync
 from regions import *
+all_regions = load_regions()
 
 # change this property
 NOMEROFF_NET_DIR = os.path.abspath('../')
@@ -60,10 +61,9 @@ def detect_number(img, name):
 
 
 def check(textArr):
-    all_regions = load_regions()
     print(all_regions)
     for num in textArr:
-        tmp = list(num[0])
+        tmp = list(num)
         print(tmp)
         if len(tmp) == 8 or len(tmp) == 9:
             tmp_num = tmp[1:4]
