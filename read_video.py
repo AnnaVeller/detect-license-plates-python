@@ -16,3 +16,4 @@ def detect_one_video(video, name=" "):
 
     cap.release()
     cv2.destroyAllWindows()
+    
