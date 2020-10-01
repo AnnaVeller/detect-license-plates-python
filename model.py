@@ -52,11 +52,11 @@ def detect_number(img, name):
         for number in textArr:
             if name == number:
                 status = True
-        for zone, points in zip(zones, arrPoints):
+       # for zone, points in zip(zones, arrPoints):
             #cv2.imshow('num', zone)
-            plt.axis("off")
-            plt.imshow(zone)
-            plt.show()
+           # plt.axis("off")
+           # plt.imshow(zone)
+            #plt.show()
 
     return state, textArr, status
 
