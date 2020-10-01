@@ -3,6 +3,7 @@ import sys
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, Detector, \
         textPostprocessing, textPostprocessingAsync
 import cv2
+import matplotlib as plt
 
 # change this property
 NOMEROFF_NET_DIR = os.path.abspath('../')
@@ -52,4 +53,10 @@ def detect_number(img, name):
             if name == number:
                 status = True
         for zone, points in zip(zones, arrPoints):
-            cv2.imshow('num', zone)
+            #cv2.imshow('num', zone)
+            plt.axis("off")
+            plt.imshow(zone)
+            plt.show()
+
+    return state, textArr, status
+
