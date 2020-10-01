@@ -20,5 +20,5 @@ cap = cv2.VideoCapture("video.mp4")
 while(cap.isOpened()):
     ret, frame = cap.read()
     state, textArr, status = model.detect_number(frame, "no name")
-    print(status, textArr)
+    print(state, textArr)
 
