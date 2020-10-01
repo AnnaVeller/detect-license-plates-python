@@ -58,10 +58,13 @@ def detect_number(img, name):
             state = False
     return state, textArr, status
 
+
 def check(textArr):
     all_regions = load_regions()
+    print(all_regions)
     for num in textArr:
         tmp = list(num[0])
+        print(tmp)
         if len(tmp) == 8 or len(tmp) == 9:
             tmp_num = tmp[1:4]
             tmp_region = tmp[6:]
@@ -79,4 +82,5 @@ def check(textArr):
                     tmp_lit_truck.isalpha() and tmp_num_truck.isdigit()):
                 if tmp_region in all_regions:
                     return True
-    return False
+        else:
+            return False
