@@ -10,10 +10,10 @@ import model
 
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
-cap = cv2.VideoCapture("video.mp4")
+cap = cv2.VideoCapture("Y618XX123.mp4")
 
 while(cap.isOpened()):
     ret, frame = cap.read()
-    state, textArr, status = model.detect_number(frame, "no name")
-    print(state, textArr)
+    state, textArr, status = model.detect_number(frame, "Y618XX123")
+    print(status, textArr)
 
