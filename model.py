@@ -61,8 +61,8 @@ def detect_number(img, name):
 
 
 def check(textArr):
-    print(all_regions)
     for num in textArr:
+        print(num)
         tmp = list(num)
         print(tmp)
         if len(tmp) == 8 or len(tmp) == 9:
