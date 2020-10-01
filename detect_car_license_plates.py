@@ -6,14 +6,9 @@ from matplotlib import pyplot as plt
 import cv2
 import warnings
 warnings.filterwarnings('ignore')
-from regions import *
+import model
 
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-
-all_regions = load_regions()
-print(all_regions)
-
-import model
 
 cap = cv2.VideoCapture("video.mp4")
 

@@ -2,8 +2,7 @@ import os
 import sys
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, Detector, \
         textPostprocessing, textPostprocessingAsync
-import cv2
-import matplotlib as plt
+from regions import *
 
 # change this property
 NOMEROFF_NET_DIR = os.path.abspath('../')
@@ -49,14 +48,34 @@ def detect_number(img, name):
     status = False  # совпадает ли с данным
     if len(textArr) > 0:
         state = True
-        for number in textArr:
-            if name == number:
-                status = True
-       # for zone, points in zip(zones, arrPoints):
-            #cv2.imshow('num', zone)
-           # plt.axis("off")
-           # plt.imshow(zone)
-            #plt.show()
-
+        ok = check(textArr)
+        if ok:
+            for number in textArr:
+                if name == number:
+                    status = True
+        else:
+            print("not found car number "),
     return state, textArr, status
 
+def check(textArr):
+    all_regions = load_regions()
+    for num in textArr:
+        tmp = list(num[0])
+        if len(tmp) == 8 or len(tmp) == 9:
+            tmp_num = tmp[1:4]
+            tmp_region = tmp[6:]
+            tmp_literal = [tmp[0]]
+            tmp_literal.extend(tmp[4:6])
+            tmp_num = ''.join(map(str, tmp_num))  # должно быть числом
+            tmp_region = ''.join(map(str, tmp_region))  # должно быть числом
+            tmp_literal = ''.join(map(str, tmp_literal))  # должно быть буквами
+
+            tmp_lit_truck = tmp[0:2]
+            tmp_num_truck = tmp[2:6]
+            tmp_lit_truck = ''.join(map(str, tmp_lit_truck))  # должно быть числом
+            tmp_num_truck = ''.join(map(str, tmp_num_truck))  # должно быть буквами
+            if (tmp_num.isdigit() and tmp_literal.isalpha() and tmp_region.isdigit()) or (
+                    tmp_lit_truck.isalpha() and tmp_num_truck.isdigit()):
+                if tmp_region in all_regions:
+                    return True
+    return False

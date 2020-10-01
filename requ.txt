@@ -1,0 +1,4 @@
+pip3 install tensorflow-gpu==1.15.2
+pip3 install Keras==2.2.*
+pip3 install mrcnn
+pip3 install Nomeroff-net-gpu
