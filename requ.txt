@@ -3,3 +3,5 @@ pip3 install Keras==2.2.*
 pip3 install mrcnn
 pip3 install Nomeroff-net-gpu
 git clone https://github.com/AnnaVeller/detect-license-plates-python.git
+
+

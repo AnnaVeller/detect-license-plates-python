@@ -6,14 +6,9 @@ from matplotlib import pyplot as plt
 import cv2
 import warnings
 warnings.filterwarnings('ignore')
-import model
+import read_video
 
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
-cap = cv2.VideoCapture("Y618XX123.mp4")
-
-while(cap.isOpened()):
-    ret, frame = cap.read()
-    state, textArr, status = model.detect_number(frame, "Y618XX123")
-    print(status, textArr, status)
-
+read_video.detect_one_video("Y618XX123.mp4", "Y618XX123")
+read_video.detect_one_video("test.mp4")
