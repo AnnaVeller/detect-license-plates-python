@@ -24,9 +24,9 @@ logger.addHandler(ch)
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 PATH_VIDEO = "video.mp4"
-logger.debug("Запустили видео ", PATH_VIDEO)
+logger.debug("Запустили видео " + PATH_VIDEO)
 read_video.detect_one_video(PATH_VIDEO, "no name")
 
 PATH_VIDEO = "video2.mp4"
-logger.debug("Запустили видео ", PATH_VIDEO)
+logger.debug("Запустили видео "+ PATH_VIDEO)
 read_video.detect_one_video(PATH_VIDEO, "no name")

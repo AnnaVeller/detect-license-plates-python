@@ -29,11 +29,11 @@ def detect_one_video(video, name=" "):
         cadr += 1
         state, number, status = model.detect_number(frame, name)
         if state:
-            logger.debug(count, number)
+            logger.debug(str(count) + str(number))
             count = 0
         else:
             if cadr % 10 == 0:
-                logger.debug("nothing", cadr)
+                logger.debug("nothing" + str(cadr))
             count += 1
 
     cap.release()
