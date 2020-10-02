@@ -15,26 +15,27 @@ def detect_one_video(video, name=" "):
     car_list = []
     while ret:
         ret, frame = cap.read()
-        logging.info(" Кадр открылся? " + str(ret))
-        cadr += 1
-        state, number, status = model.detect_number(frame, " ")
-        if state:
-            text = " Спустя %d кадров нашли номер: " % count
-            logging.info(text + str(number))
-            count = 0
-        else:
-            #if count % 10 == 0:
-            logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
-            count += 1
-        if count < 4:
-            one_number.extend(number)
-        else:
-            if count == 4:
-                name = wrong_numbers.wrong(one_number)
-                car_list.append(name)
-                logging.info(" список номеров ", car_list)
+        logging.debug(" Кадр открылся? " + str(ret))
+        if ret:
+            cadr += 1
+            state, number, status = model.detect_number(frame, " ")
+            if state:
+                text = " Спустя %d кадров нашли номер: " % count
+                logging.info(text + str(number))
+                count = 0
             else:
-                one_number.clear()
+                #if count % 10 == 0:
+                logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
+                count += 1
+            if count < 4:
+                one_number.extend(number)
+            else:
+                if count == 4:
+                    name = wrong_numbers.wrong(one_number)
+                    car_list.append(name)
+                    logging.info(" список номеров ", car_list)
+                else:
+                    one_number.clear()
     cap.release()
     cv2.destroyAllWindows()
     return car_list
