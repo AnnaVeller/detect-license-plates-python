@@ -2,6 +2,7 @@ import cv2
 import model
 import logging
 import sys
+import wrong_numbers
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
@@ -12,6 +13,7 @@ def detect_one_video(video, name=" "):
     cap = cv2.VideoCapture(video)
     one_number = []
     ret = True
+    car_list = []
     while ret:
         ret, frame = cap.read()
         cadr += 1
@@ -27,8 +29,12 @@ def detect_one_video(video, name=" "):
         if count < 4:
             one_number.extend(number)
         else:
-            one_number.clear()
-        print(one_number)
+            if count == 4:
+                name = wrong_numbers.wrong(one_number)
+                car_list.append(name)
+            else:
+                one_number.clear()
     cap.release()
     cv2.destroyAllWindows()
+    return car_list
 

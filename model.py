@@ -3,8 +3,8 @@ import sys
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, Detector, \
     textPostprocessing, textPostprocessingAsync
 import regions
-
 all_regions = regions.load_regions()
+
 # change this property
 NOMEROFF_NET_DIR = os.path.abspath('../')
 
