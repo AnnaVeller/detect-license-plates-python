@@ -7,4 +7,4 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(mes
 
 PATH_VIDEO = "video2.mp4"
 logging.debug(" Запустили видео %s" % PATH_VIDEO)
-read_video.detect_one_video(PATH_VIDEO, "no name")
+car_list = read_video.detect_one_video(PATH_VIDEO, "no name")
