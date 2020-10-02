@@ -8,16 +8,16 @@ logger.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter('%(asctime)s %(levelname)s:%(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
-fh = logging.FileHandler('logs.log')
-fh.setLevel(logging.DEBUG)
+#fh = logging.FileHandler('logs.log')
+#fh.setLevel(logging.DEBUG)
 
 ch = logging.StreamHandler(stream=sys.stdout)
 ch.setLevel(logging.DEBUG)
 
-fh.setFormatter(formatter)
+#fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 
-logger.addHandler(fh)
+#logger.addHandler(fh)
 logger.addHandler(ch)
 
 
