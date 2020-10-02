@@ -23,8 +23,8 @@ def detect_one_video(video, name=" "):
             logging.debug(text + str(number))
             count = 0
         else:
-            if count % 10 == 0:
-                logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
+            #if count % 10 == 0:
+            logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
             count += 1
         if count < 4:
             one_number.extend(number)
@@ -32,6 +32,7 @@ def detect_one_video(video, name=" "):
             if count == 4:
                 name = wrong_numbers.wrong(one_number)
                 car_list.append(name)
+                logging.debug(" список номеров ", car_list)
             else:
                 one_number.clear()
     cap.release()
