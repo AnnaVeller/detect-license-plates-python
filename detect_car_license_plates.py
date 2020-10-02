@@ -10,6 +10,6 @@ import read_video
 
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
-read_video.detect_one_video("test.mp4")
+read_video.detect_one_video("H133OE123.MOV")
 read_video.detect_one_video("Y618XX123.mp4", "Y618XX123")
 
