@@ -30,7 +30,6 @@ def wrong(predict_list):
 
   if len(ans) == 0:
     print(c.most_common())
-    result_wrong_detect_count += 1
     print('НОМЕР НЕ СООТВЕТСВУЕТ ГОСТУ легковых автомобилей\n\n')
   else:
 
