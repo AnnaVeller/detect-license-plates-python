@@ -1,8 +1,9 @@
 import os
 import sys
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, Detector, \
-        textPostprocessing, textPostprocessingAsync
+    textPostprocessing, textPostprocessingAsync
 import regions
+
 all_regions = regions.load_regions()
 # change this property
 NOMEROFF_NET_DIR = os.path.abspath('../')
@@ -26,8 +27,8 @@ optionsDetector.load("latest")
 textDetector = TextDetector.get_static_module("ru")()
 textDetector.load("latest")
 
-def detect_number(img, name):
 
+def detect_number(img, name):
     NP = nnet.detect([img])
 
     # Generate image mask.
