@@ -5,30 +5,29 @@ from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, De
 import regions
 all_regions = regions.load_regions()
 
-# change this property
-NOMEROFF_NET_DIR = os.path.abspath('../')
-
-# specify the path to Mask_RCNN if you placed it outside Nomeroff-net project
-MASK_RCNN_DIR = os.path.join(NOMEROFF_NET_DIR, 'Mask_RCNN')
-MASK_RCNN_LOG_DIR = os.path.join(NOMEROFF_NET_DIR, 'logs')
-
-sys.path.append(NOMEROFF_NET_DIR)
-
-# Initialize npdetector with default configuration file.
-nnet = Detector(MASK_RCNN_DIR, MASK_RCNN_LOG_DIR)
-nnet.loadModel("latest")
-
-rectDetector = RectDetector()
-
-optionsDetector = OptionsDetector()
-optionsDetector.load("latest")
-
-# Initialize text detector.
-textDetector = TextDetector.get_static_module("ru")()
-textDetector.load("latest")
-
-
 def detect_number(img, name):
+    # change this property
+    NOMEROFF_NET_DIR = os.path.abspath('../')
+
+    # specify the path to Mask_RCNN if you placed it outside Nomeroff-net project
+    MASK_RCNN_DIR = os.path.join(NOMEROFF_NET_DIR, 'Mask_RCNN')
+    MASK_RCNN_LOG_DIR = os.path.join(NOMEROFF_NET_DIR, 'logs')
+
+    sys.path.append(NOMEROFF_NET_DIR)
+
+    # Initialize npdetector with default configuration file.
+    nnet = Detector(MASK_RCNN_DIR, MASK_RCNN_LOG_DIR)
+    nnet.loadModel("latest")
+
+    rectDetector = RectDetector()
+
+    optionsDetector = OptionsDetector()
+    optionsDetector.load("latest")
+
+    # Initialize text detector.
+    textDetector = TextDetector.get_static_module("ru")()
+    textDetector.load("latest")
+
     NP = nnet.detect([img])
 
     # Generate image mask.
