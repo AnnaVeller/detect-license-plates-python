@@ -10,6 +10,7 @@ import read_video
 
 #os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
-read_video.detect_one_video("bandicam 2020-10-02 10-50-40-879.mp4", "H133OE123")
-read_video.detect_one_video("Y618XX123.mp4", "Y618XX123")
+PATH_VIDEO = "video.mp4"
+read_video.detect_one_video(PATH_VIDEO, "no name")
+#read_video.detect_one_video("Y618XX123.mp4", "Y618XX123")
 
