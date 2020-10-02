@@ -1,9 +1,8 @@
 import cv2
 import model
-import logging
-import sys
 import wrong_numbers
 
+import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
 
@@ -16,12 +15,12 @@ def detect_one_video(video, name=" "):
     car_list = []
     while ret:
         ret, frame = cap.read()
-        logging.debug(" Кадр открылся? " + str(ret))
+        logging.info(" Кадр открылся? " + str(ret))
         cadr += 1
         state, number, status = model.detect_number(frame, " ")
         if state:
             text = " Спустя %d кадров нашли номер: " % count
-            logging.debug(text + str(number))
+            logging.info(text + str(number))
             count = 0
         else:
             #if count % 10 == 0:
@@ -33,7 +32,7 @@ def detect_one_video(video, name=" "):
             if count == 4:
                 name = wrong_numbers.wrong(one_number)
                 car_list.append(name)
-                logging.debug(" список номеров ", car_list)
+                logging.info(" список номеров ", car_list)
             else:
                 one_number.clear()
     cap.release()
