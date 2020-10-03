@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(mess
 PATH_VIDEO = "B678XY178_T576HB123_1.57.mp4"
 logging.info(" Запустили видео %s" % PATH_VIDEO)
 cars = read_video.detect_one_video(PATH_VIDEO, "no name")
-logging.info(" Итоговый номер " + str(cars))
+logging.info(" Итоговый номер " + str(set(cars)))
 
 #PATH_VIDEO = "video.mp4"
 #logging.info(" Запустили видео %s" % PATH_VIDEO)
