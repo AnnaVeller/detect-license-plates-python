@@ -20,7 +20,8 @@ def detect_one_video(video, name=" "):
         #logging.debug(" Кадр открылся? " + str(ret))
         if ret:
             cadr += 1
-            state, number, status = model.detect_number(frame, " ")
+            state, number, status, cords = model.detect_number(frame, " ")
+            logging.info(str(cadr) + str(cords))
             if state:
                 text = " Спустя %d кадров нашли номер: " % count
                 logging.debug(text + str(number))
