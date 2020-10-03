@@ -59,7 +59,7 @@ def detect_number(img, name="name"):       # кадр, номер, которы�
         else:
             textArr.clear()
             state = False
-    return state, textArr, status, zones      # нашли номер, номера, совпал с заданным именем
+    return state, textArr, status, arrPoints     # нашли номер, номера, совпал с заданным именем
 
 
 def check(textArr):
