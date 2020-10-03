@@ -33,7 +33,7 @@ def detect_one_video(video, name=" "):
                 if count == 4:
                     name = wrong_numbers.wrong(one_number)
                     car_list.append(name)
-                    logging.info(" список номеров ", car_list)
+                    logging.info(" список номеров " + str(car_list))
                 else:
                     one_number.clear()
     cap.release()
