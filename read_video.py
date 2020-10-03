@@ -37,10 +37,10 @@ def detect_one_video(video, name=" "):
                     logging.info(" текущий список номеров " + str(car_list))
                 else:
                     one_number.clear()
-        if count < 4:       # если видео закончилось на кадре где есть машина
-            name = wrong_numbers.wrong(one_number)
-            logging.info(" текущий номер " + str(name))
-            car_list.append(name)
+    if count < 4:       # если видео закончилось на кадре где есть машина
+        name = wrong_numbers.wrong(one_number)
+        logging.info(" текущий номер " + str(name))
+        car_list.append(name)
     cap.release()
     cv2.destroyAllWindows()
     return car_list
