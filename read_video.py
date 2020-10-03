@@ -41,6 +41,7 @@ def detect_one_video(video, name=" "):
                 one_number.clear()
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
+        logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
         logging.debug(" текущий номер " + str(name))
         car_list.append(name)
     cap.release()
