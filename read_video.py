@@ -40,7 +40,7 @@ def detect_one_video(video, name=" "):
         name = wrong_numbers.wrong(one_number)
         logging.debug(" текущий номер " + str(name))
         car_list.append(name)
-        logging.info(" текущий список номеров " + str(car_list))
+        #logging.info(" текущий список номеров " + str(car_list))
     cap.release()
     cv2.destroyAllWindows()
     return car_list
