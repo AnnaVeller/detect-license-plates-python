@@ -1,7 +1,6 @@
 import collections
 
 import regions
-
 all_regions = regions.load_regions()
 
 import logging

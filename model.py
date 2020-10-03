@@ -2,6 +2,7 @@ import os
 import sys
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, Detector, \
     textPostprocessing, textPostprocessingAsync
+
 import regions
 all_regions = regions.load_regions()
 
