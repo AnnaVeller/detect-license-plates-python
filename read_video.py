@@ -20,7 +20,7 @@ def detect_one_video(video, name=" "):
         length = int(cap.get(cv2.CAP_PROP_POS_MSEC))/1000
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        logging.info(" Кадр открылся? %s %s sec height: %d weight %d" % (str(ret), str(length), h, w))
+        logging.info(" Кадр открылся? %s %s sec [%dx%d]" % (str(ret), str(length), h, w))
         if ret:
             cadr += 1
             state, number, status, cords = model.detect_number(frame, " ")
