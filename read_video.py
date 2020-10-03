@@ -27,7 +27,7 @@ def detect_one_video(video, name=" "):
                 if count % 10 == 0:     # чтобы не выводить слишком часто отладочные сообщения
                     logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
                 count += 1
-            if count < 4 and cadr < 4:     # чтобы это не сработало на первых 4 кадрах
+            if count < 4 and cadr > 4:     # чтобы это не сработало на первых 4 кадрах
                 one_number.extend(number)
                 logging.debug(" список one_number " + str(one_number))
             elif count == 4:      # прошло 4 кадра после обнаружения знака
