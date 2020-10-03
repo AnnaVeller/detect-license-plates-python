@@ -25,7 +25,7 @@ def detect_one_video(video, name=" "):
                 count = 0
             else:
                 if count % 10 == 0:
-                logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
+                    logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
                 count += 1
             if count < 4:
                 one_number.extend(number)
