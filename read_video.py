@@ -3,7 +3,7 @@ import model
 import wrong_numbers
 
 import logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
 
 def detect_one_video(video, name=" "):
