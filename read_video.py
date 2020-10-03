@@ -3,7 +3,7 @@ import model
 import wrong_numbers
 
 import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 10
@@ -26,7 +26,7 @@ def detect_one_video(video, name=" "):
                 logging.debug(text + str(number))
                 count = 0
             else:
-                if count % 10 == 0:     # чтобы не выводить слишком часто отладочные сообщения
+                if count % 50 == 0:     # чтобы не выводить слишком часто отладочные сообщения
                     logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
                 count += 1
             if count < CADRS_TO_FIND_NEW_CAR:
