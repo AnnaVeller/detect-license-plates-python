@@ -17,7 +17,7 @@ def detect_one_video(video, name=" "):
     car_list = []
     while ret:
         ret, frame = cap.read()
-        logging.debug(" Кадр открылся? " + str(ret))
+        #logging.debug(" Кадр открылся? " + str(ret))
         if ret:
             cadr += 1
             state, number, status = model.detect_number(frame, " ")
