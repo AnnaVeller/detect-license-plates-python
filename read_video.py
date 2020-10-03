@@ -5,7 +5,8 @@ import wrong_numbers
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
-COUNT_TRUE_NEGATIVES = 4
+MIN_CADRS_TO_DETECT = 2
+CADRS_TO_FIND_NEW_CAR = 10
 
 def detect_one_video(video, name=" "):
     count = 100000
@@ -28,17 +29,17 @@ def detect_one_video(video, name=" "):
                 if count % 10 == 0:     # чтобы не выводить слишком часто отладочные сообщения
                     logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
                 count += 1
-            if count < 4:
+            if count < CADRS_TO_FIND_NEW_CAR:
                 one_number.extend(number)   # список номер для текущей одной машины
                 logging.debug(" список one_number " + str(one_number))
-            elif count == 4:      # прошло 4 кадра после обнаружения знака
-                if len(one_number) > 1:    # если только на одном кадре нашли машину, то пропускаем это
+            elif count == CADRS_TO_FIND_NEW_CAR:      # прошло 4 кадра после обнаружения знака
+                if len(one_number) >= MIN_CADRS_TO_DETECT:
                     name = wrong_numbers.wrong(one_number)
                     car_list.append(name)
                 #logging.info(" текущий список номеров " + str(car_list))
             else:
                 one_number.clear()
-    if count < 4:       # если видео закончилось на кадре где есть машина
+    if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
         logging.debug(" текущий номер " + str(name))
         car_list.append(name)
