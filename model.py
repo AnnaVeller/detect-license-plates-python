@@ -28,7 +28,7 @@ textDetector = TextDetector.get_static_module("ru")()
 textDetector.load("latest")
 
 
-def detect_number(img, name):
+def detect_number(img, name="name"):       # кадр, номер, который должны обнаружить
     NP = nnet.detect([img])
 
     # Generate image mask.
@@ -58,7 +58,7 @@ def detect_number(img, name):
         else:
             textArr.clear()
             state = False
-    return state, textArr, status
+    return state, textArr, status       # нашли номер, номера, совпал с заданным именем
 
 
 def check(textArr):

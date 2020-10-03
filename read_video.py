@@ -24,18 +24,21 @@ def detect_one_video(video, name=" "):
                 logging.info(text + str(number))
                 count = 0
             else:
-                if count % 10 == 0:
+                if count % 10 == 0:     # чтобы не выводить слишком часто отладочные сообщения
                     logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
                 count += 1
             if count < 4:
                 one_number.extend(number)
             else:
-                if count == 4:
+                if count == 4:      # прошло 4 кадра после обнаружения знака
                     name = wrong_numbers.wrong(one_number)
                     car_list.append(name)
-                    logging.info(" список номеров " + str(car_list))
+                    logging.info(" текущий список номеров " + str(car_list))
                 else:
                     one_number.clear()
+        if count < 4:       # если видео закончилось на кадре где есть машина
+            name = wrong_numbers.wrong(one_number)
+            car_list.append(name)
     cap.release()
     cv2.destroyAllWindows()
     return car_list
