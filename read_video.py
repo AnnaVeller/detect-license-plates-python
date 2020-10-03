@@ -23,7 +23,7 @@ def detect_one_video(video, name=" "):
             state, number, status = model.detect_number(frame, " ")
             if state:
                 text = " Спустя %d кадров нашли номер: " % count
-                logging.info(text + str(number))
+                logging.debug(text + str(number))
                 count = 0
             else:
                 if count % 10 == 0:     # чтобы не выводить слишком часто отладочные сообщения
@@ -32,18 +32,17 @@ def detect_one_video(video, name=" "):
             if count < CADRS_TO_FIND_NEW_CAR:
                 one_number.extend(number)   # список номер для текущей одной машины
                 logging.debug(" список one_number " + str(one_number))
-            elif count == CADRS_TO_FIND_NEW_CAR:      # прошло 4 кадра после обнаружения знака
+            elif count == CADRS_TO_FIND_NEW_CAR:
                 if len(one_number) >= MIN_CADRS_TO_DETECT:
                     name = wrong_numbers.wrong(one_number)
                     car_list.append(name)
-                #logging.info(" текущий список номеров " + str(car_list))
+                    logging.info(" Номер машины " + str(name))
             else:
                 one_number.clear()
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
         logging.debug(" текущий номер " + str(name))
         car_list.append(name)
-        #logging.info(" текущий список номеров " + str(car_list))
     cap.release()
     cv2.destroyAllWindows()
     return car_list
