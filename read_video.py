@@ -30,6 +30,8 @@ def detect_one_video(video, name=" "):
             logging.info(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
             if state:
                 text = " Спустя %d кадров нашли номер: " % count
+                PATH = "/content/gdrive/My Drive/cars/detect/test_" + str(cadr) + ".jpg"
+                cv2.imwrite(PATH, frame)
                 for c in cords:
                     pts = np.array(c, np.int32)
                     pts = pts.reshape((-1, 1, 2))
@@ -51,8 +53,7 @@ def detect_one_video(video, name=" "):
             else:
                 one_number.clear()
             #cv2.imshow('detect car plates', frame)
-            PATH = "/content/gdrive/My Drive/cars/test_" + str(cadr) + ".jpg"
-            cv2.imwrite(PATH, frame)
+
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
         logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
