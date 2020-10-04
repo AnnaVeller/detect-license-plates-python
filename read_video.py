@@ -31,11 +31,12 @@ def detect_one_video(video, name=" "):
             if state:
                 text = " Спустя %d кадров нашли номер: " % count
                 for c in cords:
+                    print("c", c)
                     pts = np.array(c, np.int32)
                     pts = pts.reshape((-1, 1, 2))
                     cv2.polylines(frame, [pts], True, (255, 0, 0), 2)
                 logging.debug(text + str(number))
-                PATH = "/content/gdrive/My Drive/cars/detect/tedetectst_" + str(cadr) + ".jpg"
+                PATH = "/content/gdrive/My Drive/cars/detect/test_" + str(cadr) + ".jpg"
                 cv2.imwrite(PATH, frame)
                 count = 0
             else:
@@ -50,6 +51,8 @@ def detect_one_video(video, name=" "):
                     name = wrong_numbers.wrong(one_number)
                     car_list.append(name)
                     logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
+                    PATH = "/content/gdrive/My Drive/cars/detect/ggg_" + str(cadr) + ".jpg"
+                    cv2.imwrite(PATH, frame)
             else:
                 one_number.clear()
             #cv2.imshow('detect car plates', frame)
