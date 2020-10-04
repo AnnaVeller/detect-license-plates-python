@@ -2,6 +2,8 @@ import cv2
 import model
 import wrong_numbers
 import numpy as np
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
@@ -48,7 +50,7 @@ def detect_one_video(video, name=" "):
                     logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
             else:
                 one_number.clear()
-            #cv2.imshow('detect car plates', frame)
+            cv2.imshow('detect car plates', frame)
             PATH = "/content/gdrive/cd My\ Drive/test_" + str(cadr) + ".jpg"
             cv2.imwrite(PATH, frame)
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
