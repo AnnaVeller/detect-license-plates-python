@@ -4,7 +4,7 @@ import regions
 all_regions = regions.load_regions()
 
 import logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
 
 def wrong(predict_list):
