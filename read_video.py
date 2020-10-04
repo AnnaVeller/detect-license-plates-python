@@ -49,7 +49,7 @@ def detect_one_video(video, name=" "):
             else:
                 one_number.clear()
             #cv2.imshow('detect car plates', frame)
-            cv2.imwrite("/content/gdrive/test_" + str(cadr) + ".jpg", frame)
+            cv2.imwrite("root/content/gdrive/cd My\ Drive/test_" + str(cadr) + ".jpg", frame)
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
         logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
