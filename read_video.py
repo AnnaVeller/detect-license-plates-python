@@ -30,13 +30,13 @@ def detect_one_video(video, name=" "):
             logging.info(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
             if state:
                 text = " Спустя %d кадров нашли номер: " % count
-                PATH = "/content/gdrive/My Drive/cars/detect/test_" + str(cadr) + ".jpg"
-                cv2.imwrite(PATH, frame)
                 for c in cords:
                     pts = np.array(c, np.int32)
                     pts = pts.reshape((-1, 1, 2))
                     cv2.polylines(frame, [pts], True, (255, 0, 0), 2)
                 logging.debug(text + str(number))
+                PATH = "/content/gdrive/My Drive/cars/detect/tedetectst_" + str(cadr) + ".jpg"
+                cv2.imwrite(PATH, frame)
                 count = 0
             else:
                 if count % 50 == 0:     # чтобы не выводить слишком часто отладочные сообщения
