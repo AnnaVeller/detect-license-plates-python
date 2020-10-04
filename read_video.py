@@ -10,6 +10,8 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(mes
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 10
+PATH = "/content/gdrive/My Drive/cars/detect/"
+
 
 def detect_one_video(video, name=" "):
     count = 100000
@@ -23,22 +25,19 @@ def detect_one_video(video, name=" "):
         length = int(cap.get(cv2.CAP_PROP_POS_MSEC))/1000
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        logging.info(" Кадр открылся? %s %s sec [%dx%d]" % (str(ret), str(length), h, w))
+        logging.DEBUG(" Кадр открылся? %s %s sec [%dx%d]" % (str(ret), str(length), h, w))
         if ret:
             cadr += 1
             state, number, status, cords, zones = model.detect_number(frame, " ")
-            logging.info(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
-            logging.debug(" Открылся" + str(state))
             if state:
-                text = " Спустя %d кадров нашли номер: " % count
+                logging.DEBUG(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
                 for c in cords:
                     logging.debug(" c" + str(c))
                     pts = np.array(c, np.int32)
                     pts = pts.reshape((-1, 1, 2))
-                    cv2.polylines(frame, [pts], True, (255, 0, 0), 2)
-                logging.info(text + str(number))
-                PATH = "/content/gdrive/My Drive/cars/detect/test_" + str(cadr) + ".jpg"
-                cv2.imwrite(PATH, frame)
+                logging.info(" Спустя %d кадров нашли номер: " % count + str(number))
+                path_to_detect_plate = PATH + str(cadr) + ".jpg"
+                cv2.imwrite(path_to_detect_plate, frame)
                 count = 0
             else:
                 if count % 50 == 0:     # чтобы не выводить слишком часто отладочные сообщения
@@ -46,22 +45,21 @@ def detect_one_video(video, name=" "):
                 count += 1
             if count < CADRS_TO_FIND_NEW_CAR:
                 one_number.extend(number)   # список номер для текущей одной машины
-                logging.debug(" список one_number " + str(one_number))
+                logging.debug(" Список номеров для этой машины %s " % str(one_number))
             elif count == CADRS_TO_FIND_NEW_CAR:
                 if len(one_number) >= MIN_CADRS_TO_DETECT:
                     name = wrong_numbers.wrong(one_number)
                     car_list.append(name)
                     logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
-                    PATH = "/content/gdrive/My Drive/cars/detect/ggg_" + str(cadr) + ".jpg"
-                    cv2.imwrite(PATH, frame)
+                    path_to_detect_plate = PATH + "detectList/" + str(cadr) + ".jpg"
+                    cv2.imwrite(path_to_detect_plate, frame)
             else:
                 one_number.clear()
-            #cv2.imshow('detect car plates', frame)
+            #cv2.imshow('Detect car plates', frame)
 
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
         logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
-        logging.debug(" текущий номер " + str(name))
         car_list.append(name)
     cap.release()
     cv2.destroyAllWindows()
