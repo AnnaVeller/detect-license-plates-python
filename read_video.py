@@ -6,7 +6,7 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 10
@@ -28,6 +28,7 @@ def detect_one_video(video, name=" "):
             cadr += 1
             state, number, status, cords, zones = model.detect_number(frame, " ")
             logging.info(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
+            logging.debug(" Открылся" + str(state))
             if state:
                 text = " Спустя %d кадров нашли номер: " % count
                 for c in cords:
@@ -35,7 +36,7 @@ def detect_one_video(video, name=" "):
                     pts = np.array(c, np.int32)
                     pts = pts.reshape((-1, 1, 2))
                     cv2.polylines(frame, [pts], True, (255, 0, 0), 2)
-                logging.debug(text + str(number))
+                logging.info(text + str(number))
                 PATH = "/content/gdrive/My Drive/cars/detect/test_" + str(cadr) + ".jpg"
                 cv2.imwrite(PATH, frame)
                 count = 0
