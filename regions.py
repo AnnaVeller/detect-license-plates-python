@@ -5,4 +5,3 @@ def load_regions():
         tmp = line.split('\t')
         all_region.append(tmp[0])
     return all_region
-
