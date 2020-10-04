@@ -22,11 +22,11 @@ def detect_one_video(video, name=" "):
     car_list = []
     while ret:
         ret, frame = cap.read()
-        length = int(cap.get(cv2.CAP_PROP_POS_MSEC))/1000
-        h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        logging.DEBUG(" Кадр открылся? %s %s sec [%dx%d]" % (str(ret), str(length), h, w))
         if ret:
+            length = int(cap.get(cv2.CAP_PROP_POS_MSEC)) / 1000
+            h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            logging.DEBUG(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
             cadr += 1
             state, number, status, cords, zones = model.detect_number(frame, " ")
             if state:
