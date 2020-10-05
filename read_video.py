@@ -17,7 +17,7 @@ def detect_one_video(video, name=" "):
     count = 100000
     cadr = 0
     cap = cv2.VideoCapture(video)
-    if (cap.isOpened() == False):
+    if not cap.isOpened():
         logging.debug("Unable to read video")
     else:
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -45,7 +45,7 @@ def detect_one_video(video, name=" "):
                 cv2.imwrite(path_to_detect_plate, frame)
                 count = 0
             else:
-                if count % 50 == 0:     # чтобы не выводить слишком часто отладочные сообщения
+                if count % 10 == 0:     # чтобы не выводить слишком часто отладочные сообщения
                     logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
                 count += 1
             if count < CADRS_TO_FIND_NEW_CAR:
