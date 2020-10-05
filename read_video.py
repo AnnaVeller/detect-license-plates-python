@@ -55,8 +55,6 @@ def detect_one_video(video, name=" "):
                     name = wrong_numbers.wrong(one_number)
                     car_list.append(name)
                     logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
-                    path_to_detect_plate = PATH + "detectList/" + str(cadr) + ".jpg"
-                    cv2.imwrite(path_to_detect_plate, frame)
             else:
                 one_number.clear()
             #cv2.imshow('Detect car plates', frame)
