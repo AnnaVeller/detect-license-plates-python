@@ -22,7 +22,7 @@ def detect_one_video(video, name=" "):
     else:
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        out = cv2.VideoWriter(PATH + "output.mp4", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (w, h))
+        out = cv2.VideoWriter(PATH + "output2.mp4", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (w, h))
     one_number = []
     ret = True
     car_list = []
