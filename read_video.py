@@ -3,7 +3,7 @@ import model
 import wrong_numbers
 import numpy as np
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')

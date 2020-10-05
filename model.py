@@ -3,6 +3,9 @@ import sys
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, Detector, \
     textPostprocessing, textPostprocessingAsync
 
+import logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+
 import regions
 all_regions = regions.load_regions()
 
@@ -12,6 +15,8 @@ NOMEROFF_NET_DIR = os.path.abspath('../')
 # specify the path to Mask_RCNN if you placed it outside Nomeroff-net project
 MASK_RCNN_DIR = os.path.join(NOMEROFF_NET_DIR, 'Mask_RCNN')
 MASK_RCNN_LOG_DIR = os.path.join(NOMEROFF_NET_DIR, 'logs')
+
+logging.debug(" Путь к Mask_RCNN"+MASK_RCNN_DIR )
 
 sys.path.append(NOMEROFF_NET_DIR)
 
