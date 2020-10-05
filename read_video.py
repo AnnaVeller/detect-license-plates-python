@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(mes
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 10
-#PATH = "/content/gdrive/My Drive/cars/detect/"
+PATH = "/video/"
 
 
 def detect_one_video(video, name=" "):
@@ -22,7 +22,7 @@ def detect_one_video(video, name=" "):
     else:
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        #out = cv2.VideoWriter(PATH + "output.mp4", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (w, h))
+        out = cv2.VideoWriter(PATH + "output.mp4", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (w, h))
     one_number = []
     ret = True
     car_list = []
@@ -40,9 +40,9 @@ def detect_one_video(video, name=" "):
                     pts = pts.reshape((-1, 1, 2))
                     cv2.polylines(frame, [pts], True, (255, 0, 0), 2)
                     cv2.putText(frame, str(number), (w-300, h-50), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0), 2)
-                logging.info(" Спустя %d кадров нашли номер: " % count + str(number))
-                #path_to_detect_plate = PATH + str(cadr) + ".jpg"
-                #cv2.imwrite(path_to_detect_plate, frame)
+                logging.info(" Спустя %d кадров нашли номер: " % cadr + str(number))
+                path_to_detect_plate = PATH + str(cadr) + ".jpg"
+                cv2.imwrite(path_to_detect_plate, frame)
                 count = 0
             else:
                 if count % 10 == 0:     # чтобы не выводить слишком часто отладочные сообщения
@@ -58,8 +58,8 @@ def detect_one_video(video, name=" "):
                     logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
             else:
                 one_number.clear()
-            cv2.imshow('Detect car plates', frame)
-            #out.write(frame)
+            #cv2.imshow('Detect car plates', frame)
+            out.write(frame)
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
         logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
