@@ -39,6 +39,7 @@ def detect_one_video(video, name=" "):
                     logging.debug(" c" + str(c))
                     pts = np.array(c, np.int32)
                     pts = pts.reshape((-1, 1, 2))
+                    cv2.polylines(frame, [pts], True, (255, 0, 0), 2)
                 logging.info(" Спустя %d кадров нашли номер: " % count + str(number))
                 path_to_detect_plate = PATH + str(cadr) + ".jpg"
                 cv2.imwrite(path_to_detect_plate, frame)
