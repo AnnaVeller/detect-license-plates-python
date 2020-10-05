@@ -30,7 +30,7 @@ def detect_one_video(video, name=" "):
         ret, frame = cap.read()
         if ret:
             length = int(cap.get(cv2.CAP_PROP_POS_MSEC)) / 1000
-            logging.DEBUG(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
+            #logging.DEBUG(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
             cadr += 1
             state, number, status, cords, zones = model.detect_number(frame, " ")
             if state:
