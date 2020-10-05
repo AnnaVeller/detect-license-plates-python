@@ -34,7 +34,7 @@ def detect_one_video(video, name=" "):
             cadr += 1
             state, number, status, cords, zones = model.detect_number(frame, " ")
             if state:
-                logging.debug(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
+                #logging.debug(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
                 for c in cords:
                     logging.debug(" c" + str(c))
                     pts = np.array(c, np.int32)
