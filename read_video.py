@@ -17,6 +17,12 @@ def detect_one_video(video, name=" "):
     count = 100000
     cadr = 0
     cap = cv2.VideoCapture(video)
+    if (cap.isOpened() == False):
+        logging.debug("Unable to read video")
+    else:
+        h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        out = cv2.VideoWriter(PATH + "output.mp4", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (w, h))
     one_number = []
     ret = True
     car_list = []
@@ -24,8 +30,6 @@ def detect_one_video(video, name=" "):
         ret, frame = cap.read()
         if ret:
             length = int(cap.get(cv2.CAP_PROP_POS_MSEC)) / 1000
-            h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
             logging.DEBUG(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
             cadr += 1
             state, number, status, cords, zones = model.detect_number(frame, " ")
@@ -56,7 +60,7 @@ def detect_one_video(video, name=" "):
             else:
                 one_number.clear()
             #cv2.imshow('Detect car plates', frame)
-
+            out.write(frame)
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
         logging.info(" Номер машины на %d кадре: %s " % (cadr, name))
