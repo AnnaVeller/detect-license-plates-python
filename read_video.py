@@ -6,7 +6,7 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 10
