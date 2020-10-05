@@ -36,7 +36,6 @@ def detect_one_video(video, name=" "):
             if state:
                 #logging.debug(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
                 for c in cords:
-                    logging.debug(" c" + str(c))
                     pts = np.array(c, np.int32)
                     pts = pts.reshape((-1, 1, 2))
                     cv2.polylines(frame, [pts], True, (255, 0, 0), 2)
