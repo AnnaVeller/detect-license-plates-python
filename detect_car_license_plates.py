@@ -5,7 +5,7 @@ import logging
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
 #PATH_VIDEO = "http://62.94.249.83/axis-cgi/mjpg/video.cgi"
 #logging.info(" Запустили видео %s" % PATH_VIDEO)
