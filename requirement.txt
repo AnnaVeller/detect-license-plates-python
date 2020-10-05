@@ -18,3 +18,13 @@ git clone https://github.com/AnnaVeller/detect-license-plates-python.git
 cd detect-license-plates-python/
 python3 detect_car_license_plates.py
 git pull
+
+
+cd /content/gdrive/My\ Drive/cars/
+pip3 install tensorflow-gpu==1.15.2
+pip3 install Keras==2.2.*
+pip3 install mrcnn
+pip3 install Nomeroff-net-gpu
+cd detect-license-plates-python/
+git pull
+python3 detect_car_license_plates.py
