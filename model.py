@@ -1,6 +1,6 @@
 import os
 import sys
-from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, Detector, \
+from NomeroffNet import RectDetector, TextDetector, OptionsDetector, filters, Detector, \
     textPostprocessing, textPostprocessingAsync
 
 import logging
