@@ -4,7 +4,7 @@ from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, De
     textPostprocessing, textPostprocessingAsync
 
 import logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
 import regions
 all_regions = regions.load_regions()
