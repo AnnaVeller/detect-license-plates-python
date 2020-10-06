@@ -2,8 +2,6 @@ import cv2
 import model
 import wrong_numbers
 import numpy as np
-import os
-#os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
@@ -11,7 +9,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(mes
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 10
 PATH = "/home/user/repos/detect-license-plates-python/video/"
-
+#PATH = "C:/Users/Anna/Documents/sirius/"
 
 def detect_one_video(video, name=" "):
     count = 100000
@@ -22,7 +20,8 @@ def detect_one_video(video, name=" "):
     else:
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        out = cv2.VideoWriter(PATH + "output2.mp4", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (w, h))
+        fps = int(cap.get(cv2.CAP_PROP_FPS))
+        out = cv2.VideoWriter(PATH + name + "_detect.mp4", cv2.VideoWriter_fourcc('m','p','4','v'), fps, (w, h))
     one_number = []
     ret = True
     car_list = []
@@ -41,8 +40,8 @@ def detect_one_video(video, name=" "):
                     cv2.polylines(frame, [pts], True, (255, 0, 0), 2)
                     cv2.putText(frame, str(number), (w-300, h-50), cv2.FONT_HERSHEY_SIMPLEX, 1,(255,0,0), 2)
                 logging.info(" Спустя %d кадров нашли номер: " % cadr + str(number))
-                path_to_detect_plate = PATH + str(cadr) + ".jpg"
-                cv2.imwrite(path_to_detect_plate, frame)
+                #path_to_detect_plate = PATH + str(cadr) + ".jpg"
+                #cv2.imwrite(path_to_detect_plate, frame)
                 count = 0
             else:
                 if count % 10 == 0:     # чтобы не выводить слишком часто отладочные сообщения
