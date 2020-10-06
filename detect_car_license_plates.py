@@ -1,9 +1,10 @@
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import warnings
 warnings.filterwarnings('ignore')
 import read_video
 import logging
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
