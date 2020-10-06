@@ -1,6 +1,5 @@
 import os
 import sys
-from json2html import a
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, Detector, \
     textPostprocessing, textPostprocessingAsync
 
