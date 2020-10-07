@@ -1,8 +1,7 @@
 import os
 import sys
-from NomeroffNet import *
-#from NomeroffNet import RectDetector, TextDetector, OptionsDetector, filters, Detector, \
-#    textPostprocessing, textPostprocessingAsync
+from NomeroffNet import RectDetector, TextDetector, OptionsDetector, filters, Detector, \
+    textPostprocessing, textPostprocessingAsync
 
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
