@@ -64,6 +64,7 @@ def detect_number(img, name="name"):       # кадр, номер, которы�
                 if name == number:
                     status = True
             really_number = True
+
     return state, really_number, textArr, status, arrPoints, zones     # нашли номер, может быть такой номер,
     # номера, совпал с заданным именем, координаты номера, фото номера
 

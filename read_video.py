@@ -31,7 +31,7 @@ def detect_one_video(video, name=" "):
             #length = int(cap.get(cv2.CAP_PROP_POS_MSEC)) / 1000
             #logging.debug(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
             cadr += 1
-            state, really_number, number, status, cords, zones = model.detect_number(frame, " ")
+            state, really_number, number, reg, status, cords, zones = model.detect_number(frame, " ")
             if state:
                 #logging.debug(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
                 for c in cords:
@@ -42,7 +42,7 @@ def detect_one_video(video, name=" "):
                         color = (255,0,0)       # blue
                     else:
                         color = (250, 206, 135)     # Light Sky Blue
-                    cv2.putText(frame, str(number), (w-300, h-50), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
+                    cv2.putText(frame, str(number), (20, h-30), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
                 logging.debug(" Спустя %d кадров нашли номер: " % cadr + str(number))
                 #path_to_detect_plate = PATH + str(cadr) + ".jpg"
                 #cv2.imwrite(path_to_detect_plate, frame)
@@ -63,7 +63,7 @@ def detect_one_video(video, name=" "):
                     car_list.append(name)
                     logging.info(" Номер уехавшей машины с %d кадра: %s " % (cadr, name))
                     red = (0,0,255)
-                    cv2.putText(frame, str(name), (w - 300, h - 100), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
+                    cv2.putText(frame, str(name), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
             else:
                 one_number.clear()
             #cv2.imshow('Detect car plates', frame)
@@ -71,7 +71,7 @@ def detect_one_video(video, name=" "):
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
         logging.info(" НомерНомер уехавшей машины с %d кадра: %s " % (cadr, name))
-        cv2.putText(frame, str(number), (w - 300, h - 150), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
+        cv2.putText(frame, str(number), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
         out.write(frame)
         car_list.append(name)
     cap.release()
