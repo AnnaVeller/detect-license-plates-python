@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(mes
 
 import regions
 all_regions = regions.load_regions()
-
+TF_FORCE_GPU_ALLOW_GROWTH = True
 # change this property
 NOMEROFF_NET_DIR = os.path.abspath('../')
 
@@ -32,9 +32,10 @@ optionsDetector.load("latest")
 # Initialize text detector.
 textDetector = TextDetector.get_static_module("ru")()
 textDetector.load("latest")
-
+TF_FORCE_GPU_ALLOW_GROWTH = True
 
 def detect_number(img, name="name"):       # кадр, номер, который должны обнаружить
+    TF_FORCE_GPU_ALLOW_GROWTH = True
     NP = nnet.detect([img])
 
     # Generate image mask.
