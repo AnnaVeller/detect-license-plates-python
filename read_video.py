@@ -31,7 +31,7 @@ def detect_one_video(video, name=" "):
             #length = int(cap.get(cv2.CAP_PROP_POS_MSEC)) / 1000
             #logging.debug(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
             cadr += 1
-            state, really_number, number, reg, status, cords, zones = model.detect_number(frame, " ")
+            state, really_number, number, status, cords, zones = model.detect_number(frame, " ")
             if state:
                 #logging.debug(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
                 for c in cords:
