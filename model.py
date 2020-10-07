@@ -54,6 +54,7 @@ def detect_number(img, name="name"):       # кадр, номер, которы�
     textArr = textPostprocessing(textArr, regionNames)
 
     state = False  # нашли ли номер?
+    really_number = False   # может ли номер быть таким?
     status = False  # совпадает ли с данным
     if len(textArr) > 0:
         state = True
@@ -62,10 +63,11 @@ def detect_number(img, name="name"):       # кадр, номер, которы�
             for number in textArr:
                 if name == number:
                     status = True
+            really_number = True
         else:
             textArr.clear()
-            state = False
-    return state, textArr, status, arrPoints, zones     # нашли номер, номера, совпал с заданным именем, координаты номера, фото номера
+    return state, really_number, textArr, status, arrPoints, zones     # нашли номер, может быть такой номер,
+    # номера, совпал с заданным именем, координаты номера, фото номера
 
 
 def check(textArr):
