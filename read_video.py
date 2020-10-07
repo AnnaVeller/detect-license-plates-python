@@ -55,7 +55,7 @@ def detect_one_video(video, name=" "):
                 one_number.extend(number)   # список номер для текущей одной машины
                 name = wrong_numbers.wrong(one_number)
                 red = (0, 0, 255)
-                cv2.putText(frame, str(name), (w - 300, h - 100), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
+                cv2.putText(frame, str(name), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
                 #logging.debug(" Список номеров для этой машины %s " % str(one_number))
             elif count == CADRS_TO_FIND_NEW_CAR:
                 if len(one_number) >= MIN_CADRS_TO_DETECT:
