@@ -1,10 +1,12 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import warnings
 warnings.filterwarnings('ignore')
 import read_video
 import logging
-
+import  tensorflow as tf
+config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=True)
+config.gpu_options.allow_growth = True
 
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
