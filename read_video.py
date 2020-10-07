@@ -8,8 +8,8 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(mes
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 10
-PATH = "/home/user/repos/detect-license-plates-python/video/"
-#PATH = "C:/Users/Anna/Documents/sirius/"
+#PATH = "/home/user/repos/detect-license-plates-python/video/"
+PATH = "C:/Users/Anna/Documents/sirius/"
 
 def detect_one_video(video, name=" "):
     count = 100000      # сколько кадров прошло после обнаружения машины
@@ -55,6 +55,8 @@ def detect_one_video(video, name=" "):
                 one_number.extend(number)   # список номер для текущей одной машины
                 name = wrong_numbers.wrong(one_number)
                 red = (0, 0, 255)
+                reg = list(name)[6:]
+                cv2.putText(frame, str(reg), (20, h - 130), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
                 cv2.putText(frame, str(name), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
                 #logging.debug(" Список номеров для этой машины %s " % str(one_number))
             elif count == CADRS_TO_FIND_NEW_CAR:
@@ -70,7 +72,7 @@ def detect_one_video(video, name=" "):
             out.write(frame)
     if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
         name = wrong_numbers.wrong(one_number)
-        logging.info(" НомерНомер уехавшей машины с %d кадра: %s " % (cadr, name))
+        logging.info(" Номер уехавшей машины с %d кадра: %s " % (cadr, name))
         cv2.putText(frame, str(number), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
         out.write(frame)
         car_list.append(name)
