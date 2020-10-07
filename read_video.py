@@ -4,7 +4,7 @@ import wrong_numbers
 import numpy as np
 
 import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 10
@@ -12,7 +12,7 @@ PATH = "/home/user/repos/detect-license-plates-python/video/"
 #PATH = "C:/Users/Anna/Documents/sirius/"
 
 def detect_one_video(video, name=" "):
-    count = 100000
+    count = 100000      # сколько кадров прошло после обнаружения машины
     cadr = 0
     cap = cv2.VideoCapture(video)
     if not cap.isOpened():
@@ -28,8 +28,8 @@ def detect_one_video(video, name=" "):
     while ret:
         ret, frame = cap.read()
         if ret:
-            #length = int(cap.get(cv2.CAP_PROP_POS_MSEC)) / 1000
-            #logging.debug(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
+            length = int(cap.get(cv2.CAP_PROP_POS_MSEC)) / 1000
+            logging.debug(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
             cadr += 1
             state, really_number, number, status, cords, zones = model.detect_number(frame, " ")
             if state:
