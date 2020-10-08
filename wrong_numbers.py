@@ -35,6 +35,7 @@ def wrong(predict_list):
     if len(ans) == 0:
         logging.debug(" Наиболее вероятно: " + str(c.most_common()))
         logging.debug(' Но номер НЕ СООТВЕТСВУЕТ госту легковых автомобилей')
+        return " "
     else:
         tmp_list = []  # список найденных номеров - подходящие по правилам
         all_numbers = collections.Counter()
