@@ -59,19 +59,11 @@ def detect_one_video(video, name=" "):
                 name = wrong_numbers.wrong(one_number)
                 reg = regions.which_regions(name)
 
-
                 fontpath = "font2.ttf"
                 font = ImageFont.truetype(fontpath, 32)
                 img_pil = Image.fromarray(frame)
                 draw = ImageDraw.Draw(img_pil)
-                draw.text((20, h - 130), str(reg), font=font, fill=(0, 0, 255, 0))
-                frame = np.array(img_pil)
-
-                fontpath = "font.otf"
-                font = ImageFont.truetype(fontpath, 32)
-                img_pil = Image.fromarray(frame)
-                draw = ImageDraw.Draw(img_pil)
-                draw.text((20, 20), str(reg), font=font, fill=(0, 0, 255, 2))
+                draw.text((20, h - 150), str(reg), font=font, fill=(0, 0, 255, 0))
                 frame = np.array(img_pil)
 
                 #cv2.putText(frame, str(reg), (20, h - 130), font, fontScale, red, thickness, cv2.LINE_AA)
