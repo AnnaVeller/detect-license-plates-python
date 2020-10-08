@@ -5,3 +5,8 @@ def load_regions():
         tmp = line.split('\t')
         all_region[tmp[0]] = tmp[1]
     return all_region
+
+def which_regions(name):
+    all = load_regions()
+    reg = (name)[6:]
+    return (all[reg])

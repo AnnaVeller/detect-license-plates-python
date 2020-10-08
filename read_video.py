@@ -2,11 +2,8 @@ import cv2
 import model
 import wrong_numbers
 import numpy as np
-
 import regions
-regions_numbers = regions.load_regions()
-all_regions = regions_numbers.keys()
-
+from PIL import Image, ImageDraw, ImageFont
 
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
@@ -59,9 +56,19 @@ def detect_one_video(video, name=" "):
             if count < CADRS_TO_FIND_NEW_CAR:
                 one_number.extend(number)   # список номер для текущей одной машины
                 name = wrong_numbers.wrong(one_number)
-                red = (0, 0, 255)
-                reg = list(name)[6:]
-                cv2.putText(frame, str(reg), (20, h - 130), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
+                reg = regions.which_regions(name)
+
+
+                fontpath = "font2.ttf"
+                font = ImageFont.truetype(fontpath, 20)
+                img_pil = Image.fromarray(frame)
+                draw = ImageDraw.Draw(img_pil)
+                red = (0, 0, 255, 0)
+                draw.text((20, h - 130), str(reg), font=font, fill=red)
+                frame = np.array(img_pil)
+
+
+                #cv2.putText(frame, str(reg), (20, h - 130), font, fontScale, red, thickness, cv2.LINE_AA)
                 cv2.putText(frame, str(name), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
                 #logging.debug(" Список номеров для этой машины %s " % str(one_number))
             elif count == CADRS_TO_FIND_NEW_CAR:
