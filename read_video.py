@@ -10,8 +10,8 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(mes
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 10
-#PATH = "/home/user/repos/detect-license-plates-python/video/"
-PATH = "C:/Users/Anna/Documents/sirius/"
+PATH = "/home/user/repos/detect-license-plates-python/video/"
+#PATH = "C:/Users/Anna/Documents/sirius/"
 
 def detect_one_video(video, name=" "):
     red = (0, 0, 255)
