@@ -3,6 +3,11 @@ import model
 import wrong_numbers
 import numpy as np
 
+import regions
+regions_numbers = regions.load_regions()
+all_regions = regions_numbers.keys()
+
+
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 

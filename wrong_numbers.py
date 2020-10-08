@@ -1,7 +1,8 @@
 import collections
 
 import regions
-all_regions = regions.load_regions()
+regions_numbers = regions.load_regions()
+all_regions = regions_numbers.keys()
 
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
