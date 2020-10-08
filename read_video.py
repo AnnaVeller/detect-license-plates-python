@@ -24,7 +24,7 @@ def detect_one_video(video, name=" "):
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         fps = int(cap.get(cv2.CAP_PROP_FPS))
-        out = cv2.VideoWriter(PATH + name + "_detect.mp4", cv2.VideoWriter_fourcc('m','p','4','v'), fps, (w, h))
+        out = cv2.VideoWriter(PATH + name + "_detect2.mp4", cv2.VideoWriter_fourcc('m','p','4','v'), fps, (w, h))
     one_number = []
     ret = True
     car_list = []
@@ -71,7 +71,7 @@ def detect_one_video(video, name=" "):
                 font = ImageFont.truetype(fontpath, 32)
                 img_pil = Image.fromarray(frame)
                 draw = ImageDraw.Draw(img_pil)
-                draw.text((20, 20), str(reg), font=font, fill=(0, 0, 255, 0))
+                draw.text((20, 20), str(reg), font=font, fill=(0, 0, 255, 2))
                 frame = np.array(img_pil)
 
                 #cv2.putText(frame, str(reg), (20, h - 130), font, fontScale, red, thickness, cv2.LINE_AA)
