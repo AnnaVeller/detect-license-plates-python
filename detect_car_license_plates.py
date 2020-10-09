@@ -1,5 +1,6 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "0"   # For GPU inference
+os.environ["CUDA_VISIBLE_DEVICES"] = ""  # For CPU inference
 import warnings
 warnings.filterwarnings('ignore')
 import read_video
