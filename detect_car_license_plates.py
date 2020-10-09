@@ -1,5 +1,5 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = ""   # For GPU inference
+os.environ['CUDA_VISIBLE_DEVICES'] = "0"   # For GPU inference
 #os.environ["CUDA_VISIBLE_DEVICES"] = ""  # For CPU inference
 
 # dynamically grow the memory used on the GPU
