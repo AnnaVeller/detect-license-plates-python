@@ -2,14 +2,6 @@ import os
 os.environ['CUDA_VISIBLE_DEVICES'] = "0"   # For GPU inference
 #os.environ["CUDA_VISIBLE_DEVICES"] = ""  # For CPU inference
 
-# dynamically grow the memory used on the GPU
-from tensorflow.compat.v1.keras.backend import set_session
-import tensorflow as tf
-config = tf.compat.v1.ConfigProto()
-config.gpu_options.allow_growth = True
-sess = tf.compat.v1.Session(config=config)
-set_session(sess)
-
 import warnings
 warnings.filterwarnings('ignore')
 import read_video
