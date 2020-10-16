@@ -36,7 +36,7 @@ def wrong(predict_list):
     if len(ans) == 0:
         logging.debug(" May be: " + str(c.most_common()))
         logging.debug(" Number doesn't match the guestGOST")
-        return " "
+        return 'no'
     else:
         tmp_list = []  # список найденных номеров - подходящие по правилам
         all_numbers = collections.Counter()
