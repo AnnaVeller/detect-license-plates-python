@@ -1,11 +1,12 @@
 import collections
-
+import logging.config
 import regions
+
 regions_numbers = regions.load_regions()
 all_regions = regions_numbers.keys()
 
-import logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
+log = logging.getLogger(__name__)
 
 
 def wrong(predict_list):
@@ -33,8 +34,8 @@ def wrong(predict_list):
                     ans.append(num[0])
 
     if len(ans) == 0:
-        logging.debug(" Наиболее вероятно: " + str(c.most_common()))
-        logging.debug(' Но номер НЕ СООТВЕТСВУЕТ госту легковых автомобилей')
+        logging.debug(" May be: " + str(c.most_common()))
+        logging.debug(" Number doesn't match the guestGOST")
         return " "
     else:
         tmp_list = []  # список найденных номеров - подходящие по правилам
