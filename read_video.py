@@ -1,91 +1,80 @@
 import cv2
-import model
-import wrong_numbers
-import numpy as np
-import regions
-from PIL import Image, ImageDraw, ImageFont
+import time
+import logging.config
+import one_cadr
 
-import logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
+log = logging.getLogger(__name__)
 
-MIN_CADRS_TO_DETECT = 2
-CADRS_TO_FIND_NEW_CAR = 10
-PATH = "/home/user/repos/detect-license-plates-python/video/"
-#PATH = "C:/Users/Anna/Documents/sirius/"
+PATH = 'car_numbers/'
 
-def detect_one_video(video, name=" "):
-    red = (0, 0, 255)
-    count = 100000      # сколько кадров прошло после обнаружения машины
-    cadr = 0
+
+def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
+    path_to_file_txt = PATH + file
+
     cap = cv2.VideoCapture(video)
-    if not cap.isOpened():
-        logging.debug("Unable to read video")
-    else:
+    if cap.isOpened():
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         fps = int(cap.get(cv2.CAP_PROP_FPS))
-        out = cv2.VideoWriter(PATH + name + "_detect.mp4", cv2.VideoWriter_fourcc('m','p','4','v'), fps, (w, h))
+        log.debug(' Video [%dx%d]' % (w, h))
+        out = cv2.VideoWriter(PATH + name_video + "_detect.mp4", cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), fps, (w, h))
+        ret = True
+        file = open(path_to_file_txt, 'w')
+        file.write('%d %d %s %d \n' % (w, h, name_video, fps))
+        file.close()
+    else:
+        ret = False
+        log.debug(" Unable to read video %s" % video)
+
+    last_cadr_time_video = -SEC_TO_WRITE  # time of last capture cadr on video
+    start_time = time.time()  # time os starting process video/stream
+    last_cadr_time_stream = time.time() - SEC_TO_WRITE  # time of last capture cadr on stream
+
+    count = 100000      # сколько кадров прошло после обнаружения машины
     one_number = []
-    ret = True
-    car_list = []
+
     while ret:
         ret, frame = cap.read()
-        if ret:
-            length = int(cap.get(cv2.CAP_PROP_POS_MSEC)) / 1000
-            logging.debug(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
-            cadr += 1
-            state, really_number, number, status, cords, zones = model.detect_number(frame, " ")
-            if state:
-                #logging.debug(" Координаты номера на %s кадре: \n%s" % (str(cadr), str(cords)))
-                for c in cords:
-                    pts = np.array(c, np.int32)
-                    pts = pts.reshape((-1, 1, 2))
-                    cv2.polylines(frame, [pts], True, (255, 0, 0), 2)
-                    if really_number:
-                        color = (255,0,0)       # blue
+        length = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
+        logging.debug(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
+
+        try:
+            if (time.time() - last_cadr_time_stream >= SEC_TO_WRITE and type == 's') or (
+                    length - last_cadr_time_video >= SEC_TO_WRITE and type == 'v'):
+                if ret:
+                    if type == 'v':
+                        last_cadr_time_video = length
+                        log.debug(' In video now : %f sec' % length)
                     else:
-                        color = (250, 206, 135)     # Light Sky Blue
-                    cv2.putText(frame, str(number), (20, h-30), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
-                logging.debug(" Спустя %d кадров нашли номер: " % cadr + str(number))
-                #path_to_detect_plate = PATH + str(cadr) + ".jpg"
-                #cv2.imwrite(path_to_detect_plate, frame)
-                count = 0
-            else:
-                if count % 10 == 0:     # чтобы не выводить слишком часто отладочные сообщения
-                    logging.debug(" Номер не найден. Обработали %d кадр" % cadr)
-                count += 1
-            if count < CADRS_TO_FIND_NEW_CAR:
-                one_number.extend(number)   # список номер для текущей одной машины
-                name = wrong_numbers.wrong(one_number)
-                reg = regions.which_regions(name)
+                        last_cadr_time_stream = time.time()
+                    run_time = time.time() - start_time
+                    log.debug(' Last from begin in real time : %f sec' % run_time)
 
-                fontpath = "font2.ttf"
-                font = ImageFont.truetype(fontpath, 32)
-                img_pil = Image.fromarray(frame)
-                draw = ImageDraw.Draw(img_pil)
-                draw.text((20, h - 150), str(reg), font=font, fill=(0, 0, 255, 0))
-                frame = np.array(img_pil)
+                    frame, car_number, count, one_number, flag_new_car = one_cadr.process(frame, one_number, count, h)
 
-                #cv2.putText(frame, str(reg), (20, h - 130), font, fontScale, red, thickness, cv2.LINE_AA)
-                cv2.putText(frame, str(name), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
-                #logging.debug(" Список номеров для этой машины %s " % str(one_number))
-            elif count == CADRS_TO_FIND_NEW_CAR:
-                if len(one_number) >= MIN_CADRS_TO_DETECT:
-                    name = wrong_numbers.wrong(one_number)
-                    car_list.append(name)
-                    logging.info(" Номер уехавшей машины с %d кадра: %s " % (cadr, name))
-                    red = (0,0,255)
-                    cv2.putText(frame, str(name), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
-            else:
-                one_number.clear()
-            #cv2.imshow('Detect car plates', frame)
-            out.write(frame)
-    if count < CADRS_TO_FIND_NEW_CAR:       # если видео закончилось на кадре где есть машина
-        name = wrong_numbers.wrong(one_number)
-        logging.info(" Номер уехавшей машины с %d кадра: %s " % (cadr, name))
-        cv2.putText(frame, str(number), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, red, 2)
-        out.write(frame)
-        car_list.append(name)
+                    out.write(frame)
+
+                    if flag_new_car:
+                        # write car number
+                        file = open(path_to_file_txt, 'a')  # a - add to file
+                        file.write(car_number)
+                        file.close()
+                    else:
+                        # delete last line and write new
+                        file = open(path_to_file_txt, 'r')
+                        lines = file.readlines()    # create array of file
+                        lines = lines[:-1]      # delete last line from array
+                        file.close()
+
+                        file = open(path_to_file_txt, 'w')
+                        file.write(lines)
+                        file.write(car_number)
+                        file.close()
+
+        except KeyboardInterrupt:
+            log.debug(' KeyboardInterrupt by ctrl+c')
+            break
+
     cap.release()
     cv2.destroyAllWindows()
-    return car_list
