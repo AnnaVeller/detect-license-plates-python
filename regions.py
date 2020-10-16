@@ -12,4 +12,4 @@ def which_regions(car_plate):
         all_regions = load_regions()
         reg = car_plate[6:]
         return all_regions[reg]
-    return "Не нашли регион"
+    return "Didn't find region"
