@@ -25,7 +25,7 @@ else:
 
 if args.type == 'v':
     name = os.path.splitext(args.video)[0]      # name of video without file extension
-    PATH_VIDEO = 'video/'+ args.video
+    PATH_VIDEO = 'video/' + args.video
     if not os.path.exists(PATH_VIDEO):
         log.error(" %s didn't find" % PATH_VIDEO)
         sys.exit()
@@ -41,3 +41,4 @@ else:
 log.info(' Run video %s' % args.video)
 read_video.detect_one_video(PATH_VIDEO, filename, args.type, name, float(args.sec))
 log.info(' Close video %s \n\n' % args.video)
+
