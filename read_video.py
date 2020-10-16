@@ -37,7 +37,6 @@ def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
     while ret:
         ret, frame = cap.read()
         length = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
-        logging.debug(" Параметры видео: %s sec [%dx%d]" % (str(length), h, w))
 
         try:
             if (time.time() - last_cadr_time_stream >= SEC_TO_WRITE and type == 's') or (
@@ -55,22 +54,26 @@ def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
 
                     out.write(frame)
 
-                    if flag_new_car:
-                        # write car number
-                        file = open(path_to_file_txt, 'a')  # a - add to file
-                        file.write(car_number)
-                        file.close()
+                    if car_number == 'no':
+                        log.debug(" Number didn't find")
                     else:
-                        # delete last line and write new
-                        file = open(path_to_file_txt, 'r')
-                        lines = file.readlines()    # create array of file
-                        lines = lines[:-1]      # delete last line from array
-                        file.close()
+                        if flag_new_car:
+                            # write car number
+                            file = open(path_to_file_txt, 'a')  # a - add to file
+                            file.write(car_number)
+                            file.close()
+                        else:
+                            # delete last line and write new
+                            file = open(path_to_file_txt, 'r')
+                            lines = file.readlines()    # create array of file
+                            lines = lines[:-1]      # delete last line from array
+                            file.close()
 
-                        file = open(path_to_file_txt, 'w')
-                        file.write(lines)
-                        file.write(car_number)
-                        file.close()
+                            file = open(path_to_file_txt, 'w')
+                            for line in lines:
+                                file.write(line)
+                            file.write(car_number)
+                            file.close()
 
         except KeyboardInterrupt:
             log.debug(' KeyboardInterrupt by ctrl+c')
