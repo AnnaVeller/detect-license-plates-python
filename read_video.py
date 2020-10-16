@@ -22,6 +22,7 @@ def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
         ret = True
         file = open(path_to_file_txt, 'w')
         file.write('%d %d %s %d \n' % (w, h, name_video, fps))
+        file.write(' ')
         file.close()
     else:
         ret = False
