@@ -1,10 +1,12 @@
 import os
 import sys
-from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector,  Detector, \
-    textPostprocessing, textPostprocessingAsync
+import logging.config
+from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, \
+    Detector, textPostprocessing
 
-import logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+
+logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
+log = logging.getLogger(__name__)
 
 import regions
 all_regions = regions.load_regions()
@@ -16,7 +18,7 @@ NOMEROFF_NET_DIR = os.path.abspath('../')
 MASK_RCNN_DIR = os.path.join(NOMEROFF_NET_DIR, 'Mask_RCNN')
 MASK_RCNN_LOG_DIR = os.path.join(NOMEROFF_NET_DIR, 'logs')
 
-logging.debug(" Путь к Mask_RCNN"+MASK_RCNN_DIR )
+log.debug(" Path to Mask_RCNN " + MASK_RCNN_DIR)
 
 sys.path.append(NOMEROFF_NET_DIR)
 
@@ -34,7 +36,7 @@ textDetector = TextDetector.get_static_module("ru")()
 textDetector.load("latest")
 
 
-def detect_number(img, name="name"):       # кадр, номер, который должны обнаружить
+def detect_number(img):       # кадр, номер, который должны обнаружить
     NP = nnet.detect([img])
 
     # Generate image mask.
@@ -54,18 +56,14 @@ def detect_number(img, name="name"):       # кадр, номер, которы�
 
     state = False  # нашли ли номер?
     really_number = False   # может ли номер быть таким?
-    status = False  # совпадает ли с данным
     if len(textArr) > 0:
         state = True
         ok = check(textArr)
         if ok:
-            for number in textArr:
-                if name == number:
-                    status = True
             really_number = True
 
-    return state, really_number, textArr, status, arrPoints, zones     # нашли номер, может быть такой номер,
-    # номера, совпал с заданным именем, координаты номера, фото номера
+    return state, really_number, textArr, arrPoints, zones     # нашли номер, может быть такой номер,
+    # номер, координаты номера, фото номера
 
 
 def check(textArr):
