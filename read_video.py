@@ -11,7 +11,7 @@ PATH = 'car_numbers/'
 
 def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
     path_to_file_txt = PATH + file
-
+    file = open(path_to_file_txt, 'w')
     cap = cv2.VideoCapture(video)
     if cap.isOpened():
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -20,10 +20,7 @@ def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
         log.debug(' Video [%dx%d]' % (w, h))
         out = cv2.VideoWriter(PATH + name_video + "_detect.mp4", cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), fps, (w, h))
         ret = True
-        file = open(path_to_file_txt, 'w')
         file.write('%d %d %s %d \n' % (w, h, name_video, fps))
-        file.write(' ')
-        file.close()
     else:
         ret = False
         log.debug(" Unable to read video %s" % video)
@@ -34,7 +31,7 @@ def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
 
     count = 100000      # сколько кадров прошло после обнаружения машины
     one_number = []
-
+    flag_new_car = False
     while ret:
         ret, frame = cap.read()
         length = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
@@ -55,30 +52,15 @@ def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
 
                     out.write(frame)
 
-                    if car_number == 'no':
-                        log.debug(" Number didn't find")
-                    else:
-                        if flag_new_car:
-                            # write car number
-                            file = open(path_to_file_txt, 'a')  # a - add to file
-                            file.write(car_number)
-                            file.close()
-                        else:
-                            # delete last line and write new
-                            file = open(path_to_file_txt, 'r')
-                            lines = file.readlines()    # create array of file
-                            lines = lines[:-1]      # delete last line from array
-                            file.close()
-
-                            file = open(path_to_file_txt, 'w')
-                            for line in lines:
-                                file.write(line)
-                            file.write(car_number)
-                            file.close()
-
+                    if flag_new_car == 1:
+                        file.write(car_number + '\n')
         except KeyboardInterrupt:
             log.debug(' KeyboardInterrupt by ctrl+c')
             break
-
+    if flag_new_car == 0:
+        file.write(car_number + '\n')
+    else:
+        file.write('\n')
+    file.close()
     cap.release()
     cv2.destroyAllWindows()

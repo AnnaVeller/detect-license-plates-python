@@ -7,7 +7,7 @@ import model
 import regions
 
 MIN_CADRS_TO_DETECT = 2
-CADRS_TO_FIND_NEW_CAR = 10
+CADRS_TO_FIND_NEW_CAR = 3
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
@@ -37,8 +37,8 @@ def process(frame, one_number, count, h):
 
     car_number = 'no'
     if count < CADRS_TO_FIND_NEW_CAR:
-        flag_new_car = False
         one_number.extend(number)  # список номер для текущей одной машины
+        flag_new_car = 0
         if len(one_number) >= MIN_CADRS_TO_DETECT:
             car_number = wrong_numbers.wrong(one_number)
             reg = regions.which_regions(car_number)
@@ -48,7 +48,11 @@ def process(frame, one_number, count, h):
             draw.text((20, h - 150), str(reg), font=font, fill=Red)  # fill=(0, 0, 255, 0)
             frame = np.array(img_pil)
             cv2.putText(frame, str(car_number), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, Red, 2)
+    elif count == CADRS_TO_FIND_NEW_CAR:
+        car_number = wrong_numbers.wrong(one_number)
+        flag_new_car = 1
+        one_number.clear()
     else:
         one_number.clear()
-        flag_new_car = True
+        flag_new_car = 2
     return frame, car_number, count, one_number, flag_new_car
