@@ -17,8 +17,9 @@ def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         fps = int(cap.get(cv2.CAP_PROP_FPS))
+        new_fps = 1/SEC_TO_WRITE
         log.debug(' Video [%dx%d]' % (w, h))
-        out = cv2.VideoWriter(PATH + name_video + "_detect.mp4", cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), fps, (w, h))
+        out = cv2.VideoWriter(PATH + name_video + "_detect.mp4", cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), new_fps, (w, h))
         ret = True
         file.write('%d %d %s %d \n' % (w, h, name_video, fps))
     else:
