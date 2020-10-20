@@ -1,7 +1,7 @@
 import cv2
 import time
 import logging.config
-import one_cadr
+import ProcessOneCadr
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 PATH = 'car_numbers/'
 
 
-def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
+def read_video(video, file, type, name_video, SEC_TO_WRITE):
     path_to_file_txt = PATH + file
     file = open(path_to_file_txt, 'w')
     cap = cv2.VideoCapture(video)
@@ -49,7 +49,7 @@ def detect_one_video(video, file, type, name_video, SEC_TO_WRITE):
                     run_time = time.time() - start_time
                     log.debug(' Last from begin in real time : %f sec' % run_time)
 
-                    frame, car_number, count, one_number, flag_new_car = one_cadr.process(frame, one_number, count, h)
+                    frame, car_number, count, one_number, flag_new_car = ProcessOneCadr.one_cadr(frame, one_number, count, h)
 
                     out.write(frame)
 

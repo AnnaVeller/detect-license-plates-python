@@ -4,7 +4,7 @@ warnings.filterwarnings('ignore')
 import argparse
 import sys
 import logging.config
-import read_video
+import ReadVideo
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
@@ -39,6 +39,5 @@ else:
     filename = args.filename
 
 log.info(' Run video %s' % args.video)
-read_video.detect_one_video(PATH_VIDEO, filename, args.type, name, float(args.sec))
+ReadVideo.read_video(PATH_VIDEO, filename, args.type, name, float(args.sec))
 log.info(' Close video %s \n\n' % args.video)
-

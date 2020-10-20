@@ -2,9 +2,9 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import logging.config
-import wrong_numbers
-import model
-import regions
+import WrongNumbers
+import ModelDetect
+import Regions
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 3
@@ -18,8 +18,8 @@ Blue = (255, 0, 0)
 LightSkyBlue = (250, 206, 135)
 
 
-def process(frame, one_number, count, h):
-    state, really_number, number, cords, zones = model.detect_number(frame)
+def one_cadr(frame, one_number, count, h):
+    state, really_number, number, cords, zones = ModelDetect.detect_number(frame)
 
     if state:
         for c in cords:
@@ -40,8 +40,8 @@ def process(frame, one_number, count, h):
         one_number.extend(number)  # список номер для текущей одной машины
         flag_new_car = 0
         if len(one_number) >= MIN_CADRS_TO_DETECT:
-            car_number = wrong_numbers.wrong(one_number)
-            reg = regions.which_regions(car_number)
+            car_number = WrongNumbers.choose_right_number(one_number)
+            reg = Regions.which_regions(car_number)
             font = ImageFont.truetype(FONT, 32)
             img_pil = Image.fromarray(frame)
             draw = ImageDraw.Draw(img_pil)
@@ -49,7 +49,7 @@ def process(frame, one_number, count, h):
             frame = np.array(img_pil)
             cv2.putText(frame, str(car_number), (20, h - 80), cv2.FONT_HERSHEY_SIMPLEX, 1, Red, 2)
     elif count == CADRS_TO_FIND_NEW_CAR:
-        car_number = wrong_numbers.wrong(one_number)
+        car_number = WrongNumbers.choose_right_number(one_number)
         flag_new_car = 1
         one_number.clear()
     else:

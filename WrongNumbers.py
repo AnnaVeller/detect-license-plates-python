@@ -1,15 +1,15 @@
 import collections
 import logging.config
-import regions
+import Regions
 
-regions_numbers = regions.load_regions()
+regions_numbers = Regions.load_regions()
 all_regions = regions_numbers.keys()
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
 
-def wrong(predict_list):
+def choose_right_number(predict_list):
     c = collections.Counter()
     for word in predict_list:
         c[word] += 1

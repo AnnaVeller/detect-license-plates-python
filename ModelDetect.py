@@ -3,13 +3,12 @@ import sys
 import logging.config
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, \
     Detector, textPostprocessing
-
+import Regions
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
-import regions
-all_regions = regions.load_regions()
+all_regions = Regions.load_regions()
 
 # change this property
 NOMEROFF_NET_DIR = os.path.abspath('../')
