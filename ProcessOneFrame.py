@@ -8,7 +8,7 @@ import ModelDetect
 import Regions
 import WrongNumbers
 
-MIN_CADRS_TO_DETECT = 2
+MIN_CADRS_TO_DETECT = 3
 CADRS_TO_FIND_NEW_CAR = 3
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
@@ -39,7 +39,7 @@ def one_frame(frame, one_number, count, h):
 
     car_number = 'no'
     if count < CADRS_TO_FIND_NEW_CAR:
-        one_number.extend(number)  # список номер для текущей одной машины
+        one_number.extend(number)  # список номеров для текущей одной машины
         flag_new_car = 0
         if len(one_number) >= MIN_CADRS_TO_DETECT:
             car_number = WrongNumbers.choose_number(one_number)
@@ -57,4 +57,4 @@ def one_frame(frame, one_number, count, h):
     else:
         one_number.clear()
         flag_new_car = 2
-    return frame, car_number, count, one_number, flag_new_car
+    return frame, car_number, count, one_number, flag_new_car, zones
