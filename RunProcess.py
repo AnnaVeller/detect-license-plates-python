@@ -10,10 +10,6 @@ warnings.filterwarnings('ignore')
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
-PATH_VIDEO = ''
-filename = ''
-name_of_video = ''
-
 
 def create_parser():
     parser = argparse.ArgumentParser(description='tutorial:')
@@ -33,26 +29,27 @@ def parse_args(args):
         os.environ['CUDA_VISIBLE_DEVICES'] = ''  # For CPU inference
 
     if args.type == 'v':
-        name_of_video = os.path.splitext(args.video)[0]  # name of video without file extension
+        name = os.path.splitext(args.video)[0]  # name of video without file extension
         PATH_VIDEO = 'video/' + args.video
         if not os.path.exists(PATH_VIDEO):
             log.error(" %s didn't find" % PATH_VIDEO)
             exit(1)
     else:
-        name_of_video = args.video
+        name = args.video
         PATH_VIDEO = args.video
 
     if args.filename == 'no':  # if name of file with txt doesn't point - it will be name of video
         filename = name + '.txt'
     else:
         filename = args.filename
+    return PATH_VIDEO, filename, name
 
 
 if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
-    parse_args(args)
+    PATH_VIDEO, filename, name = parse_args(args)
 
     log.info(' Run video %s' % args.video)
-    ReadVideo.read_video(PATH_VIDEO, filename, args.type, name_of_video, float(args.sec))
+    ReadVideo.read_video(PATH_VIDEO, filename, args.type, name, float(args.sec))
     log.info(' Close video %s \n\n' % args.video)

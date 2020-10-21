@@ -32,7 +32,7 @@ def one_frame(frame, one_number, count, h):
                 cv2.putText(frame, str(number), (20, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 1, Blue, 2)
             else:
                 cv2.putText(frame, str(number), (20, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 1, LightSkyBlue, 2)
-        logging.debug(" Found number %s" % str(number))
+        log.debug(" Found number %s" % str(number))
         count = 0
     else:
         count += 1
@@ -57,4 +57,4 @@ def one_frame(frame, one_number, count, h):
     else:
         one_number.clear()
         flag_new_car = 2
-    return frame, car_number, count, one_number, flag_new_car, zones
+    return state, frame, car_number, count, one_number, flag_new_car, zones

@@ -35,8 +35,8 @@ def choose_number(predict_list):
                     ans.append(num[0])
 
     if len(ans) == 0:
-        logging.debug(" May be: " + str(c.most_common()))
-        logging.debug(" Number doesn't match the guestGOST")
+        log.debug(" May be: " + str(c.most_common()))
+        log.debug(" Number doesn't match the GOST")
         return 'no'
     else:
         tmp_list = []  # список найденных номеров - подходящие по правилам
