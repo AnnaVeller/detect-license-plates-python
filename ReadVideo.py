@@ -9,11 +9,11 @@ import ProcessOneFrame
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
-PATH = 'car_numbers/'
+PATH_TO_SAVE = 'car_numbers/'
 
 
 def read_video(video, file, type, name_video, SEC_TO_WRITE):
-    path_to_file_txt = PATH + file
+    path_to_file_txt = PATH_TO_SAVE + file
     log.debug(' Opening %s' % path_to_file_txt)
     file = open(path_to_file_txt, 'w')
     cap = cv2.VideoCapture(video)
@@ -23,7 +23,7 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
         fps = int(cap.get(cv2.CAP_PROP_FPS))
         new_fps = 1 / SEC_TO_WRITE
         log.debug(' Video [%dx%d]' % (w, h))
-        out = cv2.VideoWriter(PATH + name_video + "_detect.mp4", cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), new_fps,
+        out = cv2.VideoWriter(PATH_TO_SAVE + name_video + "_detect.mp4", cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), new_fps,
                               (w, h))
         ret = True
         file.write('%d %d %s %d \n' % (w, h, name_video, fps))
@@ -69,7 +69,7 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
                         for i in range(len(list_img)):
                             if i == 0 or i == average or i == len(list_img) - 1:  # save 3 images
                                 img = list_img[i]
-                                path_to_img = PATH + str(count_cars) + '_' + str(suffix) + '.jpg'
+                                path_to_img = PATH_TO_SAVE + str(count_cars) + '_' + str(suffix) + '.jpg'
                                 cv2.imwrite(path_to_img, img)
                                 log.debug(' Save images %s' % path_to_img)
                                 suffix += 1
@@ -89,7 +89,7 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
         for i in range(len(list_img)):
             if i == 0 or i == average or i == len(list_img) - 1:  # save 3 images
                 img = list_img[i]
-                path_to_img = PATH + str(count_cars) + '_' + str(suffix) + '.jpg'
+                path_to_img = PATH_TO_SAVE + str(count_cars) + '_' + str(suffix) + '.jpg'
                 cv2.imwrite(path_to_img, img)
                 log.debug(' Save images %s' % path_to_img)
                 suffix += 1
