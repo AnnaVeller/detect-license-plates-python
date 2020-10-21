@@ -31,10 +31,9 @@ if __name__ == '__main__':
         line = file.readline()
 
     for i in range(count):
-        for k in [1,2,3]:
-            path_to_img = PATH_TO_IMG + str(i+1)+'_'+str(k)+'.jpg'
+        for k in [1, 2, 3]:
+            path_to_img = PATH_TO_IMG + name_video + '_' + str(i+1)+'_'+str(k)+'.jpg'
             img = cv2.imread(path_to_img)
-            img = cv2.resize(img, (neww, newh))
             log.debug(path_to_img)
             cv2.imshow(str(k), img)
         cv2.waitKey(0)
