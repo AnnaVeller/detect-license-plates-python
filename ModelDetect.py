@@ -1,8 +1,10 @@
+import logging.config
 import os
 import sys
-import logging.config
+
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, \
     Detector, textPostprocessing
+
 import Regions
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
@@ -35,7 +37,7 @@ textDetector = TextDetector.get_static_module("ru")()
 textDetector.load("latest")
 
 
-def detect_number(img):       # кадр, номер, который должны обнаружить
+def detect_number(img):  # кадр, номер, который должны обнаружить
     NP = nnet.detect([img])
 
     # Generate image mask.
@@ -54,14 +56,14 @@ def detect_number(img):       # кадр, номер, который должн�
     textArr = textPostprocessing(textArr, regionNames)
 
     state = False  # нашли ли номер?
-    really_number = False   # может ли номер быть таким?
+    really_number = False  # может ли номер быть таким?
     if len(textArr) > 0:
         state = True
         ok = check(textArr)
         if ok:
             really_number = True
 
-    return state, really_number, textArr, arrPoints, zones     # нашли номер, может быть такой номер,
+    return state, really_number, textArr, arrPoints, zones  # нашли номер, может быть такой номер,
     # номер, координаты номера, фото номера
 
 

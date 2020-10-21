@@ -1,5 +1,6 @@
 import collections
 import logging.config
+
 import Regions
 
 regions_numbers = Regions.load_regions()

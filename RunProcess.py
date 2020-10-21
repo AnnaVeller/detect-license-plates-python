@@ -19,9 +19,9 @@ def create_parser():
     parser = argparse.ArgumentParser(description='tutorial:')
     parser.add_argument('--video', '-v', dest='video', default='test.mp4', help='Videofile or stream url')
     parser.add_argument('--file', '-f', dest='filename', default='no', help='File with coordinates of plates')
-    parser.add_argument('--type', dest='type', default='v', help='s-stream, v-videofile')
-    parser.add_argument('--gpu', dest='gpu', default=False, help='If you use gpu write --gpu=True')
-    parser.add_argument('--sec', dest='sec', default=0.2, help='Sec between process the cadrs')
+    parser.add_argument('--type', '-t', dest='type', default='v', help='s-stream, v-videofile')
+    parser.add_argument('--gpu', '-g', dest='gpu', default=False, help='If you use gpu write --gpu=True')
+    parser.add_argument('--sec', '-s', dest='sec', default=0.2, help='Sec between process the cadrs')
     return parser
 
 

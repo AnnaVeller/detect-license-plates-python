@@ -1,10 +1,12 @@
+import logging.config
+
 import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
-import logging.config
-import WrongNumbers
+
 import ModelDetect
 import Regions
+import WrongNumbers
 
 MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 3
@@ -18,7 +20,7 @@ Blue = (255, 0, 0)
 LightSkyBlue = (250, 206, 135)
 
 
-def one_cadr(frame, one_number, count, h):
+def one_frame(frame, one_number, count, h):
     state, really_number, number, cords, zones = ModelDetect.detect_number(frame)
 
     if state:
