@@ -21,7 +21,7 @@ LightSkyBlue = (250, 206, 135)
 
 
 def one_frame(frame, one_number, count, h):
-    state, really_number, number, cords, zones = ModelDetect.detect_number(frame)
+    state, really_number, number, cords = ModelDetect.detect_number(frame)
 
     if state:
         for c in cords:
@@ -57,4 +57,4 @@ def one_frame(frame, one_number, count, h):
     else:
         one_number.clear()
         flag_new_car = 2
-    return state, frame, car_number, count, one_number, flag_new_car, zones
+    return state, frame, car_number, count, one_number, flag_new_car
