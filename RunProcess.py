@@ -42,14 +42,20 @@ def parse_args(args):
         filename = name_of_video + '.txt'
     else:
         filename = args.filename
-    return PATH_VIDEO, filename, name_of_video
+
+    if args.sec == '0':
+        sec = 0.1
+    else:
+        sec = float(args.sec)
+
+    return PATH_VIDEO, filename, name_of_video, sec
 
 
 if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
-    PATH_VIDEO, filename, name_of_video = parse_args(args)
+    PATH_VIDEO, filename, name_of_video, sec = parse_args(args)
 
     log.info(' Run video %s' % args.video)
-    ReadVideo.read_video(PATH_VIDEO, filename, args.type, name_of_video, float(args.sec))
+    ReadVideo.read_video(PATH_VIDEO, filename, args.type, name_of_video, sec)
     log.info(' Close video %s \n\n' % args.video)
