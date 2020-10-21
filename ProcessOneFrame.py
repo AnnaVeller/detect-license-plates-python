@@ -40,8 +40,9 @@ def one_frame(frame, one_number, count, h):
     car_number = 'no'
     if count < CADRS_TO_FIND_NEW_CAR:
         one_number.extend(number)  # список номеров для текущей одной машины
-        flag_new_car = 0
+        flag_new_car = 2
         if len(one_number) >= MIN_CADRS_TO_DETECT:
+            flag_new_car = 0
             car_number = WrongNumbers.choose_number(one_number)
             reg = Regions.which_regions(car_number)
             font = ImageFont.truetype(FONT, 32)
