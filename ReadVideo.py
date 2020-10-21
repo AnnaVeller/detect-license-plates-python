@@ -85,6 +85,15 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
             break
     if flag_new_car == 0:
         file.write('%d %s\n' % (count_cars, car_number))
+        for i in range(len(list_img)):
+            if i == 0 or i == tmp or i == len(list_img) - 1:  # save 3 images
+                img = list_img[i]
+                zone = list_zones[i]
+                path_to_img = PATH + str(count_cars) + '_' + str(i) + '.jpg'
+                cv2.imwrite(path_to_img, img)
+                path_to_img = PATH + str(count_cars) + '_' + str(i) + '_zones.jpg'
+                cv2.imwrite(path_to_img, zone)
+                log.debug(' Save images %s' % path_to_img)
     else:
         file.write('\n')
     file.close()
