@@ -10,7 +10,7 @@ logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
 
-def choose_right_number(predict_list):
+def choose_number(predict_list):
     c = collections.Counter()
     for word in predict_list:
         c[word] += 1
