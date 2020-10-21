@@ -69,7 +69,7 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
                         for i in range(len(list_img)):
                             if i == 0 or i == average or i == len(list_img) - 1:  # save 3 images
                                 img = list_img[i]
-                                path_to_img = PATH_TO_SAVE + str(count_cars) + '_' + str(suffix) + '.jpg'
+                                path_to_img = PATH_TO_SAVE + name_video + '_' + str(count_cars) + '_' + str(suffix) + '.jpg'
                                 cv2.imwrite(path_to_img, img)
                                 log.debug(' Save images %s' % path_to_img)
                                 suffix += 1
@@ -89,7 +89,7 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
         for i in range(len(list_img)):
             if i == 0 or i == average or i == len(list_img) - 1:  # save 3 images
                 img = list_img[i]
-                path_to_img = PATH_TO_SAVE + str(count_cars) + '_' + str(suffix) + '.jpg'
+                path_to_img = PATH_TO_SAVE + name_video + '_' + str(count_cars) + '_' + str(suffix) + '.jpg'
                 cv2.imwrite(path_to_img, img)
                 log.debug(' Save images %s' % path_to_img)
                 suffix += 1
