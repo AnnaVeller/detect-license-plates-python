@@ -24,7 +24,6 @@ if __name__ == '__main__':
     w, h, name_video, fps = line.split()
     line = file.readline()
     while line:
-        print(line)
         count, number = line.split()
         count = int(count)
         dict_numbers[count] = number
@@ -32,12 +31,27 @@ if __name__ == '__main__':
 
     for i in range(count):
         for k in [1, 2, 3]:
-            path_to_img = PATH_TO_IMG + name_video + '_' + str(i+1)+'_'+str(k)+'.jpg'
-            img = cv2.imread(path_to_img)
-            log.debug(path_to_img)
-            cv2.imshow(str(k), img)
+            path_to_img = PATH_TO_IMG + name_video + '_' + str(i + 1) + '_' + str(k) + '_zone.jpg'
+            try:
+                img = cv2.imread(path_to_img)
+                (h_zone, w_zone, d_zone) = img.shape
+                img = cv2.resize(img, (w_zone * 2, h_zone * 2))
+                try:
+                    cv2.imshow(str(k), img)
+                    log.debug(' %s opened' % path_to_img)
+                except cv2.error:
+                    log.debug(" Could not open %s" % path_to_img)
+                    break
+            except AttributeError:
+                log.debug(" %s not found" % path_to_img)
+                break
+        print('This is: %s' % dict_numbers[i + 1])
+        print('Do you agree?')
         cv2.waitKey(0)
-
-
-    print(dict_numbers)
+        answer = input().lower()
+        if answer == '1' or answer == 't' or answer == 'true' or answer == 'yes':
+            answer = True
+        else:
+            answer = False
+        log.debug(' Answer is %s' % str(answer))
     cv2.destroyAllWindows()
