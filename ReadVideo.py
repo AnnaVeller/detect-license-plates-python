@@ -66,6 +66,10 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
                         average = math.ceil((len(list_img)) / 2)
                         log.debug(' Average count %d' % average)
                         suffix = 1
+                        #first = 2
+                        #if first >= average:
+                        #    if first > 1:
+                        #        first -= 1
                         for i in range(len(list_img)):
                             if i == 0 or i == average or i == len(list_img) - 1:  # save 3 images
                                 img = list_img[i]
