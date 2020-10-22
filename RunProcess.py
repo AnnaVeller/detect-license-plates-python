@@ -50,18 +50,15 @@ def parse_args(args):
     else:
         sec = float(args.sec)
 
-    return PATH_VIDEO, filename, name_of_video, sec
+    return path_video, filename, name_of_video, sec
+
 
 
 if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
-    path_video, filename, name_of_video = parse_args(args)
+    path_video, filename, name_of_video, sec = parse_args(args)
 
     log.info(' Run video %s' % args.video)
-    ReadVideo.read_video(path_video, filename, args.type, name_of_video, float(args.sec))
-    PATH_VIDEO, filename, name_of_video, sec = parse_args(args)
-
-    log.info(' Run video %s' % args.video)
-    ReadVideo.read_video(PATH_VIDEO, filename, args.type, name_of_video, sec)
+    ReadVideo.read_video(path_video, filename, args.type, name_of_video, sec)
     log.info(' Close video %s \n\n' % args.video)
