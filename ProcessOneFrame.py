@@ -8,7 +8,7 @@ import ModelDetect
 import Regions
 import WrongNumbers
 
-MIN_CADRS_TO_DETECT = 3
+MIN_CADRS_TO_DETECT = 2
 CADRS_TO_FIND_NEW_CAR = 3
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
@@ -21,9 +21,9 @@ LightSkyBlue = (250, 206, 135)
 
 
 def one_frame(frame, one_number, count, h):
-    state, really_number, number, cords = ModelDetect.detect_number(frame)
-    
-    found_really_number = False    # means that we found number and it's really
+    state, really_number, number, cords, zone = ModelDetect.detect_number(frame)
+
+    found_really_number = False  # means that we found number and it's really
     if state:
         for c in cords:
             pts = np.array(c, np.int32)
@@ -31,7 +31,7 @@ def one_frame(frame, one_number, count, h):
             cv2.polylines(frame, [pts], True, Blue, 2)
             if really_number:
                 one_number.extend(number)  # список номеров для текущей одной машины
-                found_really_number = True 
+                found_really_number = True
                 cv2.putText(frame, str(number), (20, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 1, Blue, 2)
             else:
                 cv2.putText(frame, str(number), (20, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 1, LightSkyBlue, 2)
@@ -60,4 +60,4 @@ def one_frame(frame, one_number, count, h):
     else:
         one_number.clear()
         flag_new_car = 2
-    return found_really_number, frame, car_number, count, one_number, flag_new_car
+    return found_really_number, frame, car_number, count, one_number, flag_new_car, zone

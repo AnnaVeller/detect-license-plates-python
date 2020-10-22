@@ -12,6 +12,26 @@ log = logging.getLogger(__name__)
 PATH_TO_SAVE = 'car_numbers/'
 
 
+def save_imgs(list_img, list_zone, name_video, count_cars):
+    average = math.ceil((len(list_img)) / 2)
+    log.debug(' Average count %d' % average)
+    suffix = 1
+    # first = 2
+    # if first >= average:
+    #    if first > 1:
+    #        first -= 1
+    for i in range(len(list_img)):
+        if i == 0 or i == average or i == len(list_img) - 1:  # save 3 images
+            img = list_img[i]
+            zone = list_zone[i]
+            path_to_img = PATH_TO_SAVE + name_video + '_' + str(count_cars) + '_' + str(suffix) + '.jpg'
+            path_to_zone = PATH_TO_SAVE + name_video + '_' + str(count_cars) + '_' + str(suffix) + '_zone.jpg'
+            cv2.imwrite(path_to_img, img)
+            cv2.imwrite(path_to_zone, zone)
+            log.debug(' Save images %s %s' % (path_to_img, path_to_zone))
+            suffix += 1
+
+
 def read_video(video, file, type, name_video, SEC_TO_WRITE):
     path_to_file_txt = PATH_TO_SAVE + file
     log.debug(' Opening %s' % path_to_file_txt)
@@ -23,7 +43,8 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
         fps = int(cap.get(cv2.CAP_PROP_FPS))
         new_fps = 1 / SEC_TO_WRITE
         log.debug(' Video [%dx%d]' % (w, h))
-        out = cv2.VideoWriter(PATH_TO_SAVE + name_video + "_detect.mp4", cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), new_fps,
+        out = cv2.VideoWriter(PATH_TO_SAVE + name_video + "_detect.mp4", cv2.VideoWriter_fourcc('m', 'p', '4', 'v'),
+                              new_fps,
                               (w, h))
         ret = True
         file.write('%d %d %s %d \n' % (w, h, name_video, fps))
@@ -39,6 +60,7 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
     one_number = []
     count_cars = 1
     list_img = []
+    list_zone = []
     while ret:
         ret, frame = cap.read()
         length = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
@@ -55,48 +77,29 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
                     run_time = time.time() - start_time
                     log.debug(' Last from begin in real time : %f sec' % run_time)
 
-                    state, frame, car_number, count, one_number, flag_new_car = ProcessOneFrame.one_frame(frame,
-                                                                                                          one_number,
-                                                                                                          count, h)
+                    state, frame, car_number, count, one_number, flag_new_car, zone = ProcessOneFrame.one_frame(frame,
+                                                                                                                one_number,
+                                                                                                                count,
+                                                                                                                h)
 
                     out.write(frame)
 
                     if flag_new_car == 1:
                         file.write('%d %s\n' % (count_cars, car_number))
-                        average = math.ceil((len(list_img)) / 2)
-                        log.debug(' Average count %d' % average)
-                        suffix = 1
-                        #first = 2
-                        #if first >= average:
-                        #    if first > 1:
-                        #        first -= 1
-                        for i in range(len(list_img)):
-                            if i == 0 or i == average or i == len(list_img) - 1:  # save 3 images
-                                img = list_img[i]
-                                path_to_img = PATH_TO_SAVE + name_video + '_' + str(count_cars) + '_' + str(suffix) + '.jpg'
-                                cv2.imwrite(path_to_img, img)
-                                log.debug(' Save images %s' % path_to_img)
-                                suffix += 1
+                        save_imgs(list_img, list_zone, name_video, count_cars)
                         list_img.clear()
+                        list_zone.clear()
                         count_cars += 1
-                    if state:  # save img
+                    if state:  # add to list if found really number
                         list_img.append(frame)
+                        list_zone.append(zone)
                         log.debug(' Add image')
         except KeyboardInterrupt:
             log.debug(' KeyboardInterrupt by ctrl+c')
             break
     if flag_new_car == 0:
         file.write('%d %s\n' % (count_cars, car_number))
-        average = math.ceil((len(list_img)) / 2)
-        log.debug(' Average count %d' % average)
-        suffix = 1
-        for i in range(len(list_img)):
-            if i == 0 or i == average or i == len(list_img) - 1:  # save 3 images
-                img = list_img[i]
-                path_to_img = PATH_TO_SAVE + name_video + '_' + str(count_cars) + '_' + str(suffix) + '.jpg'
-                cv2.imwrite(path_to_img, img)
-                log.debug(' Save images %s' % path_to_img)
-                suffix += 1
+        save_imgs(list_img, list_zone, name_video, count_cars)
     else:
         file.write('\n')
     file.close()
