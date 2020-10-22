@@ -58,6 +58,7 @@ def detect_number(img):  # кадр, номер, который должны о�
 
     state = False  # нашли ли номер?
     really_number = False  # может ли номер быть таким?
+    zone = ''
     if len(textArr) > 0:
         zone = toShowZones[0]
         state = True
