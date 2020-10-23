@@ -13,19 +13,23 @@ PATH_TO_SAVE = 'car_numbers/'
 
 
 def save_imgs(list_img, list_zone, name_video, count_cars):
-    average = math.ceil((len(list_img)) / 2)
+    len = len(list_img)
+    average = math.ceil((len-1) / 2)
     log.debug(' Average count %d' % average)
     suffix = 1
-    if average <= 1:
+
+    if len <= 3:
         first = 0
-    elif average == 2:
+        last = len - 1
+    elif len == 4:
         first = 1
+        last = len - 1
+    elif len <= 7:
+        first = 1
+        last = len - 2
     else:
         first = 2
-
-    last = len(list_img) - 2  # предпоследний
-    if last <= 0 or last <= average:
-        last = len(list_img) - 1
+        last = len - 2
 
     for i in range(len(list_img)):
         if i == first or i == average or i == last:  # save 3 images

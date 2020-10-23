@@ -56,7 +56,7 @@ def one_frame(frame, one_number, count, h):
         else:
             flag_new_car = 'NOT_ENOUGH_FRAMES_FOR_RECOGNITION'
 
-    elif count == CADRS_TO_FIND_NEW_CAR and len(one_number) != 0:
+    elif count == CADRS_TO_FIND_NEW_CAR and len(one_number) >= MIN_CADRS_TO_DETECT:
         car_number = WrongNumbers.choose_number(one_number)
         flag_new_car = 'ENDING_FIND_THIS_CAR'  # and begin find new car
         one_number.clear()

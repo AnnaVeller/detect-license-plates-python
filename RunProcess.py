@@ -53,7 +53,6 @@ def parse_args(args):
     return path_video, filename, name_of_video, sec
 
 
-
 if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
