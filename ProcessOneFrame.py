@@ -33,9 +33,10 @@ def one_frame(frame, one_number, count, h):
                 one_number.extend(number)  # список номеров для текущей одной машины
                 found_really_number = True
                 cv2.putText(frame, str(number), (20, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 1, Blue, 2)
+                log.debug(" Found REALLY number %s" % str(number))
             else:
                 cv2.putText(frame, str(number), (20, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 1, LightSkyBlue, 2)
-        log.debug(" Found number %s" % str(number))
+                log.debug(" Found NOT REALLY number %s" % str(number))
         count = 0
     else:
         count += 1
