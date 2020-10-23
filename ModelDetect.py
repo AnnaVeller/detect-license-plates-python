@@ -60,8 +60,8 @@ def detect_number(img):  # кадр, номер, который должны о�
     state = False  # нашли ли номер?
     really_number = False  # может ли номер быть таким?
     zone = ''
-    answerArr = []
-    answerPointArr = []
+    answer_nums = []
+    answer_cords = []
     if len(textArr) > 0:
         state = True
         i = 0
@@ -70,12 +70,13 @@ def detect_number(img):  # кадр, номер, который должны о�
             if ok:
                 really_number = True
                 zone = toShowZones[i]  # !Problem! How we should do with zome. I suppose I have one zone
-                answerArr.append(num)
-                answerPointArr.append(arrPoints[i])
-                log.debug(' Found really number: %s' % str(answerArr))
+                answer_nums.append(num)
+                answer_cords.append(arrPoints[i])
+                log.debug(' Found really number: %s' % str(answer_nums))
             i += 1
     if not really_number:
-        answerArr = textArr
+        answer_nums = textArr
+        answer_cords = arrPoints
 
-    return state, really_number, answerArr, answerPointArr, zone  # нашли номер, может быть такой номер,
+    return state, really_number, answer_nums, answer_cords, zone  # нашли номер, может быть такой номер,
     # номер, координаты номера, фото номера
