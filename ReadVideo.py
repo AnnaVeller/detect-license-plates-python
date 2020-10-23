@@ -23,7 +23,7 @@ def save_imgs(list_img, list_zone, name_video, count_cars):
     else:
         first = 2
 
-    last = len(list_img) - 2    # предпоследний
+    last = len(list_img) - 2  # предпоследний
     if last <= 0 or last <= average:
         last = len(list_img) - 1
 
@@ -84,27 +84,30 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
                     run_time = time.time() - start_time
                     log.debug(' Last from begin in real time : %f sec' % run_time)
 
-                    state, frame, car_number, count, one_number, flag_new_car, zone = ProcessOneFrame.one_frame(frame,
-                                                                                                                one_number,
-                                                                                                                count,
-                                                                                                                h)
+                    found_really_number, frame, car_number, count, one_number, flag_new_car, zone = \
+                        ProcessOneFrame.one_frame(frame, one_number, count, h)
 
                     out.write(frame)
 
-                    if flag_new_car == 1:
+                    if flag_new_car == 'ENDING_FIND_THIS_CAR':
                         file.write('%d %s\n' % (count_cars, car_number))
                         save_imgs(list_img, list_zone, name_video, count_cars)
                         list_img.clear()
                         list_zone.clear()
                         count_cars += 1
-                    if state:  # add to list if found really number
+
+                    if found_really_number:  # add to list if found really number
                         list_img.append(frame)
                         list_zone.append(zone)
                         log.debug(' Add image')
+
+                    if flag_new_car == 'NO_CARS':
+                        list_img.clear()
+                        list_zone.clear()
         except KeyboardInterrupt:
             log.debug(' KeyboardInterrupt by ctrl+c')
             break
-    if flag_new_car == 0:
+    if flag_new_car == 'ENOUGH_FRAMES_FOR_RECOGNITION':
         file.write('%d %s\n' % (count_cars, car_number))
         save_imgs(list_img, list_zone, name_video, count_cars)
     else:
