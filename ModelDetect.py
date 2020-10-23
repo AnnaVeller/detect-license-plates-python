@@ -70,6 +70,7 @@ def detect_number(img):  # кадр, номер, который должны о�
                 really_number = True
                 zone = toShowZones[i]  # !Problem! How we should do with zome. I suppose I have one zone
                 answerArr.append(num)
+                log(' Found really number: %s' %answerArr)
             i += 1
         if not really_number:
             answerArr = textArr
