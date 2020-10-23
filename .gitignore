@@ -1,3 +1,5 @@
 /.idea
 /__pycache__
 /log.log
+/test_folder
+/test.py
