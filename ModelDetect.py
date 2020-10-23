@@ -6,6 +6,7 @@ from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, \
     Detector, textPostprocessing
 
 import Regions
+import WrongNumbers
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
@@ -59,36 +60,17 @@ def detect_number(img):  # кадр, номер, который должны о�
     state = False  # нашли ли номер?
     really_number = False  # может ли номер быть таким?
     zone = ''
+    answerArr = []
+    i = 0
     if len(textArr) > 0:
-        zone = toShowZones[0]
         state = True
-        ok = check(textArr)
-        if ok:
-            really_number = True
+        for num in textArr:
+            ok = WrongNumbers.check(num)
+            if ok:
+                really_number = True
+                zone = toShowZones[i]  # !Problem! How we should do with zome. I suppose I have one zone
+                answerArr.append(num)
+            i += 1
 
-    return state, really_number, textArr, arrPoints, zone  # нашли номер, может быть такой номер,
+    return state, really_number, answerArr, arrPoints, zone  # нашли номер, может быть такой номер,
     # номер, координаты номера, фото номера
-
-
-def check(textArr):
-    for num in textArr:
-        tmp = list(num)
-        if len(tmp) == 8 or len(tmp) == 9:
-            tmp_num = tmp[1:4]
-            tmp_region = tmp[6:]
-            tmp_literal = [tmp[0]]
-            tmp_literal.extend(tmp[4:6])
-            tmp_num = ''.join(map(str, tmp_num))  # должно быть числом
-            tmp_region = ''.join(map(str, tmp_region))  # должно быть числом
-            tmp_literal = ''.join(map(str, tmp_literal))  # должно быть буквами
-
-            tmp_lit_truck = tmp[0:2]
-            tmp_num_truck = tmp[2:6]
-            tmp_lit_truck = ''.join(map(str, tmp_lit_truck))  # должно быть числом
-            tmp_num_truck = ''.join(map(str, tmp_num_truck))  # должно быть буквами
-            if (tmp_num.isdigit() and tmp_literal.isalpha() and tmp_region.isdigit()) or (
-                    tmp_lit_truck.isalpha() and tmp_num_truck.isdigit()):
-                if tmp_region in all_regions:
-                    return True
-        else:
-            return False
