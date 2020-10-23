@@ -31,7 +31,7 @@ def save_imgs(list_img, list_zone, name_video, count_cars):
         first = 2
         last = len_of_list - 2
 
-    for i in range():
+    for i in range(len_of_list):
         if i == first or i == average or i == last:  # save 3 images
             img = list_img[i]
             zone = list_zone[i]
