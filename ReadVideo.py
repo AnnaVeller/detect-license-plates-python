@@ -13,25 +13,25 @@ PATH_TO_SAVE = 'car_numbers/'
 
 
 def save_imgs(list_img, list_zone, name_video, count_cars):
-    len = len(list_img)
-    average = math.ceil((len-1) / 2)
+    len_of_list = len(list_img)
+    average = math.ceil((len_of_list-1) / 2)
     log.debug(' Average count %d' % average)
     suffix = 1
 
-    if len <= 3:
+    if len_of_list <= 3:
         first = 0
-        last = len - 1
-    elif len == 4:
+        last = len_of_list - 1
+    elif len_of_list == 4:
         first = 1
-        last = len - 1
-    elif len <= 7:
+        last = len_of_list - 1
+    elif len_of_list <= 7:
         first = 1
-        last = len - 2
+        last = len_of_list - 2
     else:
         first = 2
-        last = len - 2
+        last = len_of_list - 2
 
-    for i in range(len(list_img)):
+    for i in range():
         if i == first or i == average or i == last:  # save 3 images
             img = list_img[i]
             zone = list_zone[i]
@@ -54,9 +54,8 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
         fps = int(cap.get(cv2.CAP_PROP_FPS))
         new_fps = 1 / SEC_TO_WRITE
         log.debug(' Video [%dx%d]' % (w, h))
-        out = cv2.VideoWriter(PATH_TO_SAVE + name_video + "_detect.mp4", cv2.VideoWriter_fourcc('m', 'p', '4', 'v'),
-                              new_fps,
-                              (w, h))
+        out = cv2.VideoWriter(PATH_TO_SAVE + name_video + "_detect.mp4",
+                              cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), new_fps, (w, h))
         ret = True
         file.write('%d %d %s %d \n' % (w, h, name_video, fps))
     else:
