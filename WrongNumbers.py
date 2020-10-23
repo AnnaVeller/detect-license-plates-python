@@ -10,33 +10,41 @@ logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
 
+def check(num):  # check one number. It works on cars and lories
+    tmp = list(num)
+    if len(tmp) == 8 or len(tmp) == 9:
+        tmp_num = tmp[1:4]
+        tmp_region = tmp[6:]
+        tmp_literal = [tmp[0]]
+        tmp_literal.extend(tmp[4:6])
+        tmp_num = ''.join(map(str, tmp_num))  # должно быть числом
+        tmp_region = ''.join(map(str, tmp_region))  # должно быть числом
+        tmp_literal = ''.join(map(str, tmp_literal))  # должно быть буквами
+
+        tmp_lit_truck = tmp[0:2]
+        tmp_num_truck = tmp[2:6]
+        tmp_lit_truck = ''.join(map(str, tmp_lit_truck))  # должно быть числом
+        tmp_num_truck = ''.join(map(str, tmp_num_truck))  # должно быть буквами
+        if (tmp_num.isdigit() and tmp_literal.isalpha() and tmp_region.isdigit()) or (
+                tmp_lit_truck.isalpha() and tmp_num_truck.isdigit()):
+            if tmp_region in all_regions:
+                return True
+    else:
+        return False
+
+
 def choose_number(predict_list):
     c = collections.Counter()
     for word in predict_list:
         c[word] += 1
     ans = []
     for num in list(c.most_common()):
-        tmp = list(num[0])
-        if len(tmp) == 8 or len(tmp) == 9:
-            tmp_num = tmp[1:4]
-            tmp_region = tmp[6:]
-            tmp_literal = [tmp[0]]
-            tmp_literal.extend(tmp[4:6])
-            tmp_num = ''.join(map(str, tmp_num))  # должно быть числом
-            tmp_region = ''.join(map(str, tmp_region))  # должно быть числом
-            tmp_literal = ''.join(map(str, tmp_literal))  # должно быть буквами
-            tmp_lit_truck = tmp[0:2]
-            tmp_num_truck = tmp[2:6]
-            tmp_lit_truck = ''.join(map(str, tmp_lit_truck))  # должно быть числом
-            tmp_num_truck = ''.join(map(str, tmp_num_truck))  # должно быть буквами
-            if (tmp_num.isdigit() and tmp_literal.isalpha() and tmp_region.isdigit()) or (
-                    tmp_lit_truck.isalpha() and tmp_num_truck.isdigit()):
-                if tmp_region in all_regions:
-                    ans.append(num[0])
+        if check(num[0]):
+            ans.append(num[0])
 
     if len(ans) == 0:
         log.debug(" May be: " + str(c.most_common()))
-        log.debug(" Number doesn't match the GOST")
+        log.debug(" Numbers not match the GOST")
         return 'no'
     else:
         tmp_list = []  # список найденных номеров - подходящие по правилам
