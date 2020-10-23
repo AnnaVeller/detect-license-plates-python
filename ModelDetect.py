@@ -71,6 +71,8 @@ def detect_number(img):  # кадр, номер, который должны о�
                 zone = toShowZones[i]  # !Problem! How we should do with zome. I suppose I have one zone
                 answerArr.append(num)
             i += 1
+        if not really_number:
+            answerArr = textArr
 
     return state, really_number, answerArr, arrPoints, zone  # нашли номер, может быть такой номер,
     # номер, координаты номера, фото номера
