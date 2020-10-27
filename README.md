@@ -44,6 +44,8 @@
 
 `git checkout <file>` - отменить изменения файла пока они не добавлены в add
 
+`mv test.txt test.old` - переименовать
+
 ### Необходимо 
 
 `conda create --name detect tensorflow-gpu=1.15.0 opencv keras=2.2.* cudnn=*=cuda10.1_0 numpy`
