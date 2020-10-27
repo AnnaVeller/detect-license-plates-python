@@ -44,6 +44,10 @@
 
 `git checkout <file>` - отменить изменения файла пока они не добавлены в add
 
+### Необходимо 
+
+`conda create --name detect tensorflow-gpu=1.15.0 opencv keras=2.2.* cudnn=*=cuda10.1_0 numpy`
+
 
 ### [Инструкция к установке Tensorflow](tensorflow.org/install/pip "Установка Tensorflow")
 
