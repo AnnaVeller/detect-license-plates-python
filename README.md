@@ -18,17 +18,17 @@ pip3 install mrcnn
 pip3 install Nomeroff-net
 ```
 
-При запуске c --gpu=True: 
+- При запуске c --gpu=True: 
 ![](https://sun9-51.userapi.com/ekPhrW64rUEO0UwE7DIHFVd0wtnorlGbWzypXQ/FkWH7DKZAXg.jpg)
 После предупреждений запускается на CPU.
 
-Если учесть новые требования с Github [Nomeroff-net](https://github.com/ria-com/nomeroff-net "Nomeroff-net"):
+- Если учесть новые требования с Github [Nomeroff-net](https://github.com/ria-com/nomeroff-net "Nomeroff-net"):
 
 `tensorflow>=2.3.*` 
 
-Библиотеки с изображения выше будут загружаться, но будут возникать новые проблемы.
+- Библиотеки с изображения выше будут загружаться, но будут возникать новые проблемы.
 
-Если взять example Nomeroff-net и их текущие требования. То при запуске даже на CPU всё равно появляются проблемы с tensorflow.
+- Если взять example Nomeroff-net и их текущие требования. То при запуске даже на CPU всё равно появляются проблемы с tensorflow.
 
 ### [Инструкция к установке Tensorflow](tensorflow.org/install/pip "Установка Tensorflow")
 
