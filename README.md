@@ -46,8 +46,7 @@
 
 ### Пример запуска <a name='5'></a>
 
-#### Запуск на CPU: <a name='5.1'></a>
-Запустили [Runprocess.Py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/RunProcess.py "Runprocess.Py") таким образом:
+#### 1. Запуск на CPU: <a name='5.1'></a>
 
 `python3 RunProcess.py --video=multy_mini.MOV --file=multy_mini.txt --type=v --gpu=no`
 
@@ -55,7 +54,7 @@
 
 `python3 RunProcess.py --video=multy_mini.MOV`
 
-#### Запуск программы из консоли c использованием GPU <a name='5.2'></a>
+#### 2. Запуск на GPU <a name='5.2'></a>
 
 `python3 RunProcess.py --video=multy_mini.MOV --sec=0.5 --gpu=True`
 
@@ -71,7 +70,7 @@
 
 
 
-#### Использование онлайн камеры в качестве видео <a name='5.3'></a>
+#### 3. Использование онлайн камеры в качестве видео <a name='5.3'></a>
 
 `python3 RunProcess.py --video=[URL на камеру] --file=camera_online.txt --type=s --gpu=no`
 
