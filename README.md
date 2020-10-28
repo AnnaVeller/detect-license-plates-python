@@ -30,7 +30,7 @@ pip3 install Nomeroff-net
 
 - Если взять example Nomeroff-net и их текущие требования. То при запуске даже на CPU всё равно появляются проблемы с tensorflow.
 
-### [Инструкция к установке Tensorflow](tensorflow.org/install/pip "Установка Tensorflow")
+ ### [Инструкция к установке Tensorflow](http://tensorflow.org/install/pip)
 
 ### Схема работы системы с указанием файлов, к которым принадлежит та или иная функция
 ![](https://psv4.userapi.com/c856320/u92558681/docs/d8/ee9d7d85596b/Copy_of_Rabochaya_UML_1.png?extra=bR9qblSJH5TAfs3r83yjrPovW5Ka0TQLh6YhncdejFaNcM08-uN5j3IPfPeecyF5b9e7WhxSkululdiPPYhewoiNZNyCsot1NwCG0bGiKoBffnRsn-S4pVgUbOnHzpD7z_QZ62LocKZv0Ez2ov_UHUQ)
