@@ -2,6 +2,8 @@ import logging.config
 import os
 import sys
 
+NOMEROFF_NET_DIR = os.path.abspath('../nomeroff-net/')
+sys.path.append(NOMEROFF_NET_DIR)
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, \
     Detector, textPostprocessing
 
@@ -14,7 +16,6 @@ log = logging.getLogger(__name__)
 all_regions = Regions.load_regions()
 
 # change this property
-NOMEROFF_NET_DIR = os.path.abspath('../')
 
 # specify the path to Mask_RCNN if you placed it outside Nomeroff-net project
 MASK_RCNN_DIR = os.path.join(NOMEROFF_NET_DIR, 'Mask_RCNN')
@@ -22,7 +23,6 @@ MASK_RCNN_LOG_DIR = os.path.join(NOMEROFF_NET_DIR, 'logs')
 
 log.debug(" Path to Mask_RCNN " + MASK_RCNN_DIR)
 
-sys.path.append(NOMEROFF_NET_DIR)
 
 # Initialize npdetector with default configuration file.
 nnet = Detector(MASK_RCNN_DIR, MASK_RCNN_LOG_DIR)
