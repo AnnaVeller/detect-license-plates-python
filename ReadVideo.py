@@ -53,14 +53,14 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
         w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         fps = int(cap.get(cv2.CAP_PROP_FPS))
         new_fps = 1 / SEC_TO_WRITE
-        log.debug(' Video [%dx%d]' % (w, h))
+        log.info(' Video [%dx%d]' % (w, h))
         out = cv2.VideoWriter(PATH_TO_SAVE + name_video + "_detect.mp4",
                               cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), new_fps, (w, h))
         ret = True
         file.write('%d %d %s %d \n' % (w, h, name_video, fps))
     else:
         ret = False
-        log.debug(" Unable to read video %s" % video)
+        log.info(" Unable to read video %s" % video)
 
     last_frame_time_video = -SEC_TO_WRITE  # time of last capture frame on video
     start_time = time.time()  # time os starting process video/stream
@@ -94,6 +94,7 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
 
                     if flag_new_car == 'ENDING_FIND_THIS_CAR':
                         file.write('%d %s\n' % (count_cars, car_number))
+                        log.info(' Wrote to file car number: %s' % car_number)
                         save_imgs(list_img, list_zone, name_video, count_cars)
                         list_img.clear()
                         list_zone.clear()
@@ -108,7 +109,7 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
                         list_img.clear()
                         list_zone.clear()
         except KeyboardInterrupt:
-            log.debug(' KeyboardInterrupt by ctrl+c')
+            log.info(' KeyboardInterrupt by ctrl+c')
             break
     if flag_new_car == 'ENOUGH_FRAMES_FOR_RECOGNITION':
         file.write('%d %s\n' % (count_cars, car_number))
