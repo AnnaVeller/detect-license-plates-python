@@ -37,7 +37,7 @@ def parse_args(args):
             log.error(" %s didn't find" % path_video)
             exit(1)
     else:
-        name_of_video = args.video
+        name_of_video = 'online_camera'
         path_video = args.video
 
     if args.filename == 'no':  # if name of file with txt doesn't point - it will be name of video
