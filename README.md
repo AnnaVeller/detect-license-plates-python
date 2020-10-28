@@ -1,36 +1,84 @@
 # detect-license-plates-python
+1. [Установка под GPU](#2.1)
+2. [Установка под CPU](#2.2)
+3. [Расположение файлов](#2.3)
+4. [Аргументы командной строки](#2.4)
+5. [Пример работы](#2.5)
+6. [Пример работы с онлайн камерой](#2.6)
+7. [Пример запуска с GPU](#2.7)
 
-### Запуск программы из консоли c использованием GPU
+--------------------------------------
+
+### Установка под GPU <a name='2.1'></a>
+    pip3 install tensorflow-gpu==1.15.2 
+    pip3 install Keras==2.2.*
+    pip3 install mrcnn
+    pip3 install Nomeroff-net-gpu
+
+
+### Установка под CPU <a name='2.2'></a>
+    pip3 install tensorflow==1.15.2 
+    pip3 install Keras==2.2.*
+    pip3 install mrcnn
+    pip3 install Nomeroff-net
+
+### Расположение файлов <a name='2.3'></a>
+В папке [video](https://github.com/AnnaVeller/detect-license-plates-python/tree/master/video) находятся видео, которые могут быть обработаны. Чтобы их использовать - необходимо указать одно из них в командной строке при запуске скрипта [Runprocess.Py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/RunProcess.py "Runprocess.Py") *(см. раздел аргументы командной строки)*.
+
+В папке [car_numbers](https://github.com/AnnaVeller/detect-license-plates-python/tree/master/car_numbers) расположены файлы разрешения *txt*, полученные скриптом Runprocess.Py.
+
+### Аргументы командной строки <a name='2.4'></a>
+###### При запуске [Runprocess.Py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/RunProcess.py "Runprocess.Py") можно указать аргументы:
+
+`--video=test.mp4` *Название файла видео из папки video или ссылка на  онлайн камеру. По умолчанию test.mp4*
+
+`--file=test.txt` *Название файла, куда будет записаны координаты номеров (файлы сохраняются в папку car_numbers). По умолчанию [название__видео].txt*
+
+`--type=v или --type=s`  *Тип того, что было передано в --video. v-видео, s-стрим. По умолчанию видео*
+
+`--sec=0.5` *Количество секунд между захватом кадров для обработки. По умолчанию 0.5 секунд*
+
+`--gpu=False или --gpu=True` *Используется ли GPU. По умолчанию не используется*
+
+
+
+
+### Пример запуска <a name='2.5'></a>
+
+###### 1) Запустили [Runprocess.Py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/RunProcess.py "Runprocess.Py") таким образом:
+
+`python3 RunProcess.py --video=multy_mini.MOV --file=multy_mini.txt --type=v --gpu=no`
+
+что было бы аналогично из-за дефолтных настроек этому:
+
+`python3 RunProcess.py --video=multy_mini.MOV`
+
+
+### Использование онлайн камеры в качестве видео <a name='2.6'></a>
+
+`python3 RunProcess.py --video=[URL на камеру] --file=camera_online.txt --type=s --gpu=no`
+
+Чтобы остановить работу скрипта необходимо нажать Ctrl+c
+
+
+
+
+### Запуск программы из консоли c использованием GPU <a name='2.7'></a>
 
 `python3 RunProcess.py --video=multy_mini.MOV --sec=0.5 --gpu=True`
 
-### Требования, nomeroff-net ранее
-```
-pip3 install tensorflow-gpu==1.15.2
-pip3 install Keras==2.2.*
-pip3 install mrcnn
-pip3 install Nomeroff-net-gpu 
-```
-```
-pip3 install tensorflow==1.15.2
-pip3 install Keras==2.2.*
-pip3 install mrcnn
-pip3 install Nomeroff-net
-```
-
-- При запуске c --gpu=True: 
 ![](https://sun9-51.userapi.com/ekPhrW64rUEO0UwE7DIHFVd0wtnorlGbWzypXQ/FkWH7DKZAXg.jpg)
 После предупреждений запускается на CPU.
 
-- Если учесть новые требования с Github [Nomeroff-net](https://github.com/ria-com/nomeroff-net "Nomeroff-net"):
+
+
+### Если учесть новые требования с Github [Nomeroff-net](https://github.com/ria-com/nomeroff-net "Nomeroff-net"):
 
 `tensorflow>=2.3.*` 
 
-Библиотеки с изображения выше будут загружаться, но будут возникать новые проблемы.
+Библиотеки с изображения выше будут загружаться, но будут возникать новые проблемы. Даже если взять их example
 
-- Если взять example Nomeroff-net и их текущие требования. То при запуске даже на CPU всё равно появляются проблемы с tensorflow.
-
- ### [Инструкция к установке Tensorflow](http://tensorflow.org/install/pip)
+### [Инструкция к установке Tensorflow](http://tensorflow.org/install/pip)
 
 ### Схема работы системы с указанием файлов, к которым принадлежит та или иная функция
 ![](https://psv4.userapi.com/c856320/u92558681/docs/d8/ee9d7d85596b/Copy_of_Rabochaya_UML_1.png?extra=bR9qblSJH5TAfs3r83yjrPovW5Ka0TQLh6YhncdejFaNcM08-uN5j3IPfPeecyF5b9e7WhxSkululdiPPYhewoiNZNyCsot1NwCG0bGiKoBffnRsn-S4pVgUbOnHzpD7z_QZ62LocKZv0Ez2ov_UHUQ)
