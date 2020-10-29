@@ -3,7 +3,8 @@ import os
 import sys
 
 NOMEROFF_NET_DIR = os.path.abspath('../nomeroff-net/')
-sys.path.append(NOMEROFF_NET_DIR)
+sys.path.append(NOMEROFF_NET_DIR)  # add path to search modules
+
 from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, \
     Detector, textPostprocessing
 
@@ -22,7 +23,6 @@ MASK_RCNN_DIR = os.path.join(NOMEROFF_NET_DIR, 'Mask_RCNN')
 MASK_RCNN_LOG_DIR = os.path.join(NOMEROFF_NET_DIR, 'logs')
 
 log.debug(" Path to Mask_RCNN " + MASK_RCNN_DIR)
-
 
 # Initialize npdetector with default configuration file.
 nnet = Detector(MASK_RCNN_DIR, MASK_RCNN_LOG_DIR)
