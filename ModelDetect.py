@@ -16,33 +16,50 @@ log = logging.getLogger(__name__)
 
 all_regions = Regions.load_regions()
 
-# change this property
-
-# specify the path to Mask_RCNN if you placed it outside Nomeroff-net project
-MASK_RCNN_DIR = os.path.join(NOMEROFF_NET_DIR, 'Mask_RCNN')
-MASK_RCNN_LOG_DIR = os.path.join(NOMEROFF_NET_DIR, 'logs')
-
-log.debug(" Path to Mask_RCNN " + MASK_RCNN_DIR)
-
-# Initialize npdetector with default configuration file.
-nnet = Detector(MASK_RCNN_DIR, MASK_RCNN_LOG_DIR)
-nnet.loadModel("latest")
-
 rectDetector = RectDetector()
 
 optionsDetector = OptionsDetector()
 optionsDetector.load("latest")
 
 # Initialize text detector.
-textDetector = TextDetector.get_static_module("ru")()
-textDetector.load("latest")
+textDetector = TextDetector({
+    "eu_ua_2004_2015": {
+        "for_regions": ["eu_ua_2015", "eu_ua_2004"],
+        "model_path": "latest"
+    },
+    "eu_ua_1995": {
+        "for_regions": ["eu_ua_1995"],
+        "model_path": "latest"
+    },
+    "eu": {
+        "for_regions": ["eu"],
+        "model_path": "latest"
+    },
+    "ru": {
+        "for_regions": ["ru", "eu-ua-fake-lnr", "eu-ua-fake-dnr"],
+        "model_path": "latest"
+    },
+    "kz": {
+        "for_regions": ["kz"],
+        "model_path": "latest"
+    },
+    "ge": {
+        "for_regions": ["ge"],
+        "model_path": "latest"
+    },
+    "su": {
+        "for_regions": ["su"],
+        "model_path": "latest"
+    }
+})
+
+# Initialize npdetector with default configuration file.
+nnet = Detector()
+nnet.loadModel(NOMEROFF_NET_DIR)
 
 
 def detect_number(img):  # кадр, номер, который должны обнаружить
-    NP = nnet.detect([img])
-
-    # Generate image mask.
-    cv_img_masks = filters.cv_img_mask(NP)
+    cv_img_masks = nnet.detect([img])
 
     # Detect points.
     arrPoints = rectDetector.detect(cv_img_masks)
