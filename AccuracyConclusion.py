@@ -1,12 +1,27 @@
 import logging.config
+import argparse
+import os
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
-file = 'car_numbers/fin_file.txt'
+PATH_TO_DATA = 'car_numbers/'
+
+
+def create_parser():
+    parser = argparse.ArgumentParser(description='tutorial:')
+    parser.add_argument('--name', '-f', dest='name', default='', help='Name of video or file without extension')
+    return parser
+
 
 if __name__ == '__main__':
-    file = open(file)
+    parser = create_parser()
+    args = parser.parse_args()
+
+    path_to_imgs = os.path.join(PATH_TO_DATA, args.name) + '/'
+
+    fin_file = path_to_imgs + args.name + '_asked.txt'
+    file = open(fin_file)
     line = file.readline()
     state_array = []
     w, h, name_video, fps = line.split()

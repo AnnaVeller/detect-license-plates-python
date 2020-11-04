@@ -1,14 +1,20 @@
 import logging.config
 
 import cv2
+import os
+import argparse
 import numpy as np
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
-PATH_TO_IMG = 'car_numbers/'
-fin_file = 'car_numbers/fin_file.txt'
+PATH_TO_DATA = 'car_numbers/'
 
+
+def create_parser():
+    parser = argparse.ArgumentParser(description='tutorial:')
+    parser.add_argument('--name', '-f', dest='name', default='', help='Name of video or file without extension')
+    return parser
 
 def create_image(input_images, increase_const=3):
     images = []
@@ -37,6 +43,12 @@ def create_image(input_images, increase_const=3):
 
 if __name__ == '__main__':
 
+    parser = create_parser()
+    args = parser.parse_args()
+
+    path_to_imgs = os.path.join(PATH_TO_DATA, args.name) + '/'
+
+    fin_file = path_to_imgs + args.name + '_asked.txt'
     file = open(fin_file)
     dict = {}
     line = file.readline()
@@ -57,7 +69,7 @@ if __name__ == '__main__':
     for i in range(count):
         images = []
         for k in [1, 2, 3]:
-            path_to_img = PATH_TO_IMG + name_video + '_' + str(i + 1) + '_' + str(k) + '_zone.jpg'
+            path_to_img = path_to_imgs + str(i + 1) + '_' + str(k) + '_zone.jpg'
             try:
                 img = cv2.imread(path_to_img)
                 images.append(img)
