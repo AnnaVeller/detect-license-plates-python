@@ -96,7 +96,7 @@ car_numbers/[название_видео]/:
 Основной файл, через который запускается вся система распознавания - это [RunProcess.py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/RunProcess.py "RunProcess.py").
 #### 1. Запуск на CPU: <a name='5.1'></a>
 
-`python3 RunProcess.py --video=multy_mini.MOV --file=multy_mini.txt --type=v --gpu=no`
+`python3 RunProcess.py --video=multy_mini.MOV --file=multy_mini.txt --type=v --gpu=False`
 
 Это будет аналогично из-за дефолтных настроек этому:
 
@@ -108,7 +108,7 @@ car_numbers/[название_видео]/:
 
 #### 3. Использование онлайн камеры в качестве видео <a name='5.3'></a>
 
-`python3 RunProcess.py --video=[URL на камеру] --file=camera_online.txt --type=s --gpu=no`
+`python3 RunProcess.py --video=[URL на камеру] --file=camera_online.txt --type=s --gpu=False`
 
 Чтобы остановить работу скрипта необходимо нажать Ctrl+c
 
