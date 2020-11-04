@@ -1,39 +1,83 @@
-# detect-license-plates-python
-1. [Установка под GPU](#1)
-2. [Установка под CPU](#2)
-3. [Расположение файлов](#3)
-4. [Аргументы командной строки](#4)
-5. [Примеры работы](#5)
-	1. [Запуск на CPU](#5.1)
-	2. [Запуск на GPU](#5.2)
-	3. [Пример работы с онлайн камерой](#5.3) 
+# Детектирование автомобильных номеров на видео
 
+1. [Введение](#1) 
+2. [Установка](#2)
+3. [Иерархия файлов и папок](#3)
+4. [Аргументы командной строки](#4)
+5. [Примеры запуска системы распознавания через командную строку](#5)
+	1. [Запуск видео на CPU](#5.1)
+	2. [Запуск видео на GPU](#5.2)
+	3. [Пример работы с онлайн камерой](#5.3)
+6. [Описание выходных данных](#6)
+	1. [Обработанное видео](#6.1)
+	2. [Файл txt со списком номеров](#6.2)
+	3. [Кадры с номером](#6.3)
+7. [Тестирование](#7)
+8. [Определение точности системы](#8)
+	1. [AccurancyAsk.py](#8.1)
+	2. [AccurancyChecking.py](#8.1)
+	3. [AccurancyConclusion.py](#8.1)
+9. [Схема работы системы (для понимания логики программы)](#9)
+10. [Создание частотной heatmap (тепловой карты) нахождения автомобильных номеров](#10)
+11. [Ссылки](#11)
 --------------------------------------
 
-### Установка под GPU <a name='1'></a>
-    pip3 install tensorflow-gpu==1.15.2 
-    pip3 install Keras==2.2.*
-    pip3 install mrcnn
-    pip3 install Nomeroff-net-gpu
+###  Введение <a name='1'></a>
+Сервис распознает автомобильные номера на видео или с онлайн камер. Достаточно указать это в аргументах при запуске сервиса. Чтобы запускать сервис с использованием видеокарты (GPU) необходимо указать это в аргументах при запуске системы.
+
+Сервис основан на базе [NomeroffNet](https://github.com/ria-com/nomeroff-net "NomeroffNet").
+
+### Установка <a name='2'></a>
+Проект [NomeroffNet](https://github.com/ria-com/nomeroff-net "NomeroffNet") находится в постоянной разработке, поэтому советуем уточнять требования для его установки на их [Github](https://github.com/ria-com/nomeroff-net "Github"). Ниже приведены их требования на момент написания этой инструкции.
+
+python >=3.6
+
+[opencv](https://opencv.org/ "opencv") >=3.4
+
+	git clone https://github.com/ria-com/nomeroff-net.git
+	cd nomeroff-net
+	git clone https://github.com/youngwanLEE/centermask2.git
+	pip3 install 'git+https://github.com/facebookresearch/detectron2.git'
+	pip3 install -r requirements.txt
+
+Далее необходимо выйти из директории nomeroff-net и произвести установку данной системы:
+
+	cd ..
+	git clone https://github.com/AnnaVeller/detect-license-plates-python.git
 
 
-### Установка под CPU <a name='2'></a>
-    pip3 install tensorflow==1.15.2 
-    pip3 install Keras==2.2.*
-    pip3 install mrcnn
-    pip3 install Nomeroff-net
+Обратите внимание, если [текущий проект](https://github.com/AnnaVeller/detect-license-plates-python "текущий проект") будет установлен не в ту же директорию, что и [nomeroff-net](https://github.com/ria-com/nomeroff-net "NomeroffNet"), то необходимо в файле ModelDetect.py указать верный путь к nomeroff-net.
 
-### Расположение файлов <a name='3'></a>
+### Иерархия файлов и папок <a name='3'></a>
+Все файлы с кодом располагаются в корневом каталоге.
+
 В папке [video](https://github.com/AnnaVeller/detect-license-plates-python/tree/master/video) находятся видео, которые могут быть обработаны. Чтобы их использовать - необходимо указать одно из них в командной строке при запуске скрипта [Runprocess.Py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/RunProcess.py "Runprocess.Py") *(см. раздел аргументы командной строки)*.
 
-В папке [car_numbers](https://github.com/AnnaVeller/detect-license-plates-python/tree/master/car_numbers) расположены файлы разрешения *txt*, полученные скриптом Runprocess.Py.
+В папку [car_numbers](https://github.com/AnnaVeller/detect-license-plates-python/tree/master/car_numbers) попадают обработанные видео. Там же создается новая папка одноименная с видео, которое было обработано. В неё помещаются*txt*-файлы со списком распознанных номеров на видео, три картинки кадров для каждой машины и с этих же кадров вырезка таблички номера.
+```
+car_numbers/:
+[название видео]_detect.mp4 - обработанное видео
+
+car_numbers/[название_видео]/:
+[название видео].txt - список номеров, найденных на видео
+[название видео]_[номер в файле txt]_1.jpg - один из первых кадров, где найден номер 
+[название видео]_[номер в файле txt]_1_zone.jpg - табличка с номером с кадра выше
+[название видео]_[номер в файле txt]_2.jpg - кадр с середины 
+[название видео]_[номер в файле txt]_2_zone.jpg
+[название видео]_[номер в файле txt]_3.jpg
+[название видео]_[номер в файле txt]_3_zone.jpg
+```
+
+###### Схематично расположение файлов представлено ниже:
+*Структура каталога nomeroff-net представлена кратко. Чтобы показать, какие дополнительные директории необходимо скачать с GitHub (Если вы шли по установке выше - они уже скачаны)*
+[![Структура каталогов проекта](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/folder_structure.jpg?raw=true "Структура каталогов проекта")](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/folder_structure.jpg?raw=true "Структура каталогов проекта")
 
 ### Аргументы командной строки <a name='4'></a>
-###### При запуске [Runprocess.Py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/RunProcess.py "Runprocess.Py") можно указать аргументы:
+###### При запуске [Runprocess.Py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/RunProcess.py "Runprocess.Py") необходимо указать аргументы:
 
-`--video=test.mp4` *Название файла видео из папки video или ссылка на  онлайн камеру. По умолчанию test.mp4*
+`--video=test.mp4` *Название файла видео из папки video или ссылка на онлайн камеру. По умолчанию test.mp4*
 
-`--file=test.txt` *Название файла, куда будет записаны координаты номеров (файлы сохраняются в папку car_numbers). По умолчанию [название__видео].txt*
+`--file=test.txt` *Название файла, куда будет записаны координаты номеров (файлы сохраняются в папку car_numbers). По умолчанию [название видео].txt*
 
 `--type=v или --type=s`  *Тип того, что было передано в --video. v-видео, s-стрим. По умолчанию видео*
 
@@ -42,15 +86,14 @@
 `--gpu=False или --gpu=True` *Используется ли GPU. По умолчанию не используется*
 
 
+### Пример запуска системы распознавания через командную строку <a name='5'></a>
 
-
-### Пример запуска <a name='5'></a>
-
+Основной файл, через который запускается вся система распознавания - это [RunProcess.py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/RunProcess.py "RunProcess.py").
 #### 1. Запуск на CPU: <a name='5.1'></a>
 
 `python3 RunProcess.py --video=multy_mini.MOV --file=multy_mini.txt --type=v --gpu=no`
 
-что было бы аналогично из-за дефолтных настроек этому:
+Это будет аналогично из-за дефолтных настроек этому:
 
 `python3 RunProcess.py --video=multy_mini.MOV`
 
@@ -58,74 +101,118 @@
 
 `python3 RunProcess.py --video=multy_mini.MOV --sec=0.5 --gpu=True`
 
-![](https://sun9-51.userapi.com/ekPhrW64rUEO0UwE7DIHFVd0wtnorlGbWzypXQ/FkWH7DKZAXg.jpg)
-После предупреждений запускается на CPU.
-
-
-##### Если учесть новые требования с Github [Nomeroff-net](https://github.com/ria-com/nomeroff-net "Nomeroff-net"):
-
-`tensorflow>=2.3.*` 
-
-Библиотеки с изображения выше будут загружаться, но будут возникать новые проблемы. Даже если взять их example
-
-
-
 #### 3. Использование онлайн камеры в качестве видео <a name='5.3'></a>
 
 `python3 RunProcess.py --video=[URL на камеру] --file=camera_online.txt --type=s --gpu=no`
 
 Чтобы остановить работу скрипта необходимо нажать Ctrl+c
 
-### [Инструкция к установке Tensorflow](http://tensorflow.org/install/pip)
-
-### Схема работы системы с указанием файлов, к которым принадлежит та или иная функция
-![](https://psv4.userapi.com/c856320/u92558681/docs/d8/ee9d7d85596b/Copy_of_Rabochaya_UML_1.png?extra=bR9qblSJH5TAfs3r83yjrPovW5Ka0TQLh6YhncdejFaNcM08-uN5j3IPfPeecyF5b9e7WhxSkululdiPPYhewoiNZNyCsot1NwCG0bGiKoBffnRsn-S4pVgUbOnHzpD7z_QZ62LocKZv0Ez2ov_UHUQ)
 
 
-##### Полезные команды  
+### Описание выходных данных <a name='6'></a>
+##### 1. Обработанное видео<a name='6.1'></a>
 
-`conda info --envs` - информация по моим виртуальным средам
+Это видео, на котором указан номер, найденный на текущем кадре, итоговый номер, регион автомобиля.
 
-`conda create --name detect tensorflow keras cudnn=7.6.5=cuda10.1_0`
+Найденный номер на кадре может быть синего и голубого цвета:
+ 
+![blue](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/blue.png?raw=true "blue") ![l-blue](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/light_blue.png?raw=true "l-blue")
 
-`conda activate detect`
+Cиний номер означает, что такая комбинация символов может быть номером. Голубой обозначает обратное. 
 
-`conda install пакет`
+Синие номера, при помощи несложного алгоритма соединаются в один номер, который называется итоговым и выделен на каждом кадре красным:
 
-`conda search пакет`
+![red](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/red.png?raw=true "red")
 
-`conda remove --name myenv --all`
+Соответсвенно, с каждый кадром, накапливается информация по номерам и красный номер может меняться.
 
-`watch -n 1 nvidia-smi`- будет каждую секунду показывать актуальную загрузку видюхи
+Обработанное видео имеет ту же длину, что и исходное. Однако fps (frames per second) отличается и равно 1/sec. Sec - параметр, переданный в командной строке.
 
-`tiv картинка` - показать картинку в терминале
+Ниже на изображении ещё раз даны комментарии:
 
-`gitk` - открывает ветки изменения
+![](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/description_frames_smaller.png?raw=true)
 
-`git diff <file>` - показывает изменения
+##### 2. Файл txt со списком номеров<a name='6.2'></a>
 
-`git config --global user.name "John Doe"`
+Файл содержит все номера, встреченные в видео. На первой строчке даны характеристики видео. Далее идет порядковый номер автомобильного номера и распознанный итоговый номер:
 
-`git config --global user.email johndoe@example.com`
+[Высота] [Ширина] [Название видео] [fps]
 
-БЕЗ global можно поменять чисто для ТЕКУЩЕГО проекта
+[порядковый номер] [автомобильный номер]
 
-`git config user.name "Anna"`
+[порядковый номер] [автомобильный номер]
 
-`git config user.email anna.ovsi@mail.com`
+...
 
-ВСЕ НАСТРОЙКИ
+![](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/txt.png?raw=true)
 
-`git config --list --show-origin`
+##### 3. Кадры с номером<a name='6.3'></a>
 
-`git add .; git commit -m "update"; git push`
-
-`git checkout <file>` - отменить изменения файла пока они не добавлены в add
-
-`mv test.txt test.old` - переименовать
-
-#### Возможно с этими требованиями сработало, но они не совместимы
-
-`conda create --name detect tensorflow-gpu=1.15.0 opencv keras=2.2.* cudnn=*=cuda10.1_0 numpy`
+Для подсчета точности системы нам нужны скриншоты с номерами. Поэтому с каждого распознанного номера мы сохраняем три скриншота: в начале, середине и конце:
+![](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/save3frames.png?raw=true)
 
 
+### Тестирование <a name='7'></a>
+
+Для тестирования были подготовлены видео с КПП и переданы в данную систему. Ниже сделаны скриншоты с видео:
+![test](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/tests.png?raw=true "test")
+
+### Определение точности системы <a name='8'></a>
+
+Для определения точности необходима ручная обработка. То есть разметка, что система определила правильно, что нет. Для этого есть три скрипта.
+
+##### 1. Сначала запускается [AccuracyAsk.py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/AccuracyAsk.py "AccuracyAsk.py")<a name='8.1'></a>
+
+Аргумент `--name`- это имя папки с видео = название видео без разрешения = файл со списком номеров без разрешения
+`python3 AccuracyAsk.py --name=multy_mini`
+
+В этом скрипте необходимо на каждый номер из списка выбрать: true/false/unknown:
+
+- `true` (можно также написать t/1/yes/y  ) - номер на картинке совпадает с номером в названии;
+
+- `false` (0/f/no/n) - не совпадает;
+
+- `unknown` (-1/?/unknown/x) - номер плохо различим
+
+Так будут выглядеть картинки:
+
+![](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/accuracy.png?raw=true)
+
+
+##### 2. Затем можно быстро проверить свои ответы с [AccuracyChecking.py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/AccuracyChecking.py "AccuracyChecking.py")<a name='8.2'></a>
+
+`python3 AccuracyChecking.py --name=multy_mini`
+
+![check](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/checking.png?raw=true "check")
+
+Этот скрипт сделан исключительно чтобы ПРОСМОТРЕТЬ быстро ответы. Для исправления необходимо открыть этот файл и вручную исправить.
+
+##### 3. Получить точность можно с помощью [AccuracyConclusion.py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/AccuracyConclusion.py "AccuracyConclusion.py")<a name='8.3'></a>
+
+`python3 AccuracyChecking.py --name=multy_mini`
+
+В итоге в консоль будет выведено:
+
+![conclusion](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/conclusion.png?raw=true "conclusion")
+
+### Схема работы системы с указанием файлов, к которым принадлежит та или иная функция <a name='9'></a>
+
+Данная UML - диаграмма показывает откуда происходит начало (запуск) системы и какие функции в каких файлах задействует. На диаграмме представлены только *основные* функции и файлы.
+
+![](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/UML_schema.png?raw=true)
+
+
+### Построение частотной heatmap (тепловой карты) нахождения автомобильных номеров на видео или онлайн камерах <a name='10'></a>
+
+Эта задача нужна, чтобы выделить те регионы, где чаще всего встречаются автомобильные номера.
+Задача решена в проекте *[heatmap-location-car-plates](https://github.com/AnnaVeller/heatmap-location-car-plates "heatmap-location-car-plates")*. Он устанавливается и запускается отдельно от текущего проекта.
+
+Вот примеры его работы:
+
+![heatmap](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/project_imgs/heatmap.jpg?raw=true "heatmap")
+
+### Ссылки <a name='11'></a>
+
+- [Инструкция к установке Tensorflow](http://tensorflow.org/install/pip)
+- [Распознавание номеров. Практическое пособие. Часть 1](https://habr.com/ru/post/432444/ "Распознавание номеров. Практическое пособие. Часть 1")
+- [Распознавание номеров. Как мы получили 97% точности для Украинских номеров. Часть 2](https://habr.com/ru/post/439330/ "Распознавание номеров. Как мы получили 97% точности для Украинских номеров. Часть 2")[Репозиторий Nomeroff Net](https://github.com/ria-com/nomeroff-net "Репозиторий Nomeroff Net")
