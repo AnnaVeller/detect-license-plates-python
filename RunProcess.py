@@ -27,6 +27,13 @@ def parse_args(args):
     if args.gpu:
         os.environ['CUDA_VISIBLE_DEVICES'] = '0'  # For GPU inference
         os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"  # For GPU inference
+        # dynamically grow the memory used on the GPU
+        from tensorflow.compat.v1.keras.backend import set_session
+        import tensorflow as tf
+        config = tf.compat.v1.ConfigProto()
+        config.gpu_options.allow_growth = True
+        sess = tf.compat.v1.Session(config=config)
+        set_session(sess)
     else:
         os.environ['CUDA_VISIBLE_DEVICES'] = ''  # For CPU inference
 
