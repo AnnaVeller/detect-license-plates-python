@@ -2,6 +2,7 @@ import logging.config
 import os
 import sys
 
+# specify the path to nomeroff-net
 NOMEROFF_NET_DIR = os.path.abspath('../nomeroff-net/')
 sys.path.append(NOMEROFF_NET_DIR)  # add path to search modules
 
@@ -15,8 +16,6 @@ logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)
 
 all_regions = Regions.load_regions()
-
-# change this property
 
 # specify the path to Mask_RCNN if you placed it outside Nomeroff-net project
 MASK_RCNN_DIR = os.path.join(NOMEROFF_NET_DIR, 'Mask_RCNN')
