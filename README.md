@@ -15,8 +15,8 @@
 7. [Тестирование](#7)
 8. [Определение точности системы](#8)
 	1. [AccurancyAsk.py](#8.1)
-	2. [AccurancyChecking.py](#8.1)
-	3. [AccurancyConclusion.py](#8.1)
+	2. [AccurancyChecking.py](#8.2)
+	3. [AccurancyConclusion.py](#8.3)
 9. [Схема работы системы (для понимания логики программы)](#9)
 10. [Создание частотной heatmap (тепловой карты) нахождения автомобильных номеров](#10)
 11. [Ссылки](#11)
@@ -164,6 +164,7 @@ Cиний номер означает, что такая комбинация с
 ##### 1. Сначала запускается [AccuracyAsk.py](https://github.com/AnnaVeller/detect-license-plates-python/blob/master/AccuracyAsk.py "AccuracyAsk.py")<a name='8.1'></a>
 
 Аргумент `--name`- это имя папки с видео = название видео без разрешения = файл со списком номеров без разрешения
+
 `python3 AccuracyAsk.py --name=multy_mini`
 
 В этом скрипте необходимо на каждый номер из списка выбрать: true/false/unknown:
