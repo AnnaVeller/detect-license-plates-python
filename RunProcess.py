@@ -12,6 +12,7 @@ log = logging.getLogger(__name__)
 
 PATH_TO_VIDEO = 'video/'
 
+
 def create_parser():
     parser = argparse.ArgumentParser(description='tutorial:')
     parser.add_argument('--video', '-v', dest='video', default='test.mp4', help='Videofile or stream url')
@@ -23,7 +24,6 @@ def create_parser():
 
 
 def parse_args(args):
-    
     if args.gpu:
         os.environ['CUDA_VISIBLE_DEVICES'] = '0'  # For GPU inference
         os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"  # For GPU inference

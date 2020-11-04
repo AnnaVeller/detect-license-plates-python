@@ -60,7 +60,7 @@ nnet.loadModel(NOMEROFF_NET_DIR)
 
 
 def detect_number(img):  # кадр, номер, который должны обнаружить
-    cv_img_masks = nnet.detect([img])
+    cv_img_masks = nnet.detect_mask([img])
 
     # Detect points.
     arrPoints = rectDetector.detect(cv_img_masks)
