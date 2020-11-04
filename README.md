@@ -37,7 +37,12 @@ python >=3.6
 	git clone https://github.com/ria-com/nomeroff-net.git
 	cd nomeroff-net
 	git clone https://github.com/youngwanLEE/centermask2.git
+	pip3 install torch==1.6
+	pip3 install PyYAML==5.3
 	pip3 install 'git+https://github.com/facebookresearch/detectron2.git'
+	pip3 install torchvision==0.7.0
+	pip3 install Cython
+	pip3 install numpy
 	pip3 install -r requirements.txt
 
 Далее необходимо выйти из директории nomeroff-net и произвести установку данной системы:
