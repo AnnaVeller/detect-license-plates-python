@@ -1,5 +1,5 @@
-import logging.config
 import argparse
+import logging.config
 import os
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)

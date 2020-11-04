@@ -1,9 +1,9 @@
 import logging.config
 import math
+import os
 import time
 
 import cv2
-import os
 
 import ProcessOneFrame
 

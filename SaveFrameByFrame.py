@@ -1,12 +1,13 @@
-import cv2
 import os
 
-PATH = 'test_folder/'   # choose path to save frames
+import cv2
+
+PATH = 'test_folder/'  # choose path to save frames
 PATH_WHERE_SEARCH = 'car_numbers/'
 VIDEO = 'test_multy_detect.mp4'
 
 name_video = os.path.splitext(VIDEO)[0]
-path_to_save = os.path.join(PATH, name_video)+'/'
+path_to_save = os.path.join(PATH, name_video) + '/'
 print(path_to_save)
 try:
     os.mkdir(path_to_save)

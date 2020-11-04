@@ -6,7 +6,7 @@ import sys
 NOMEROFF_NET_DIR = os.path.abspath('../nomeroff-net/')
 sys.path.append(NOMEROFF_NET_DIR)  # add path to search modules
 
-from NomeroffNet import filters, RectDetector, TextDetector, OptionsDetector, \
+from NomeroffNet import RectDetector, TextDetector, OptionsDetector, \
     Detector, textPostprocessing
 
 import Regions

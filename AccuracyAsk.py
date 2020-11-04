@@ -1,9 +1,9 @@
 import argparse
 import logging.config
+import os
 
 import cv2
 import numpy as np
-import os
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
 log = logging.getLogger(__name__)

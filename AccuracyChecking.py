@@ -1,8 +1,8 @@
+import argparse
 import logging.config
+import os
 
 import cv2
-import os
-import argparse
 import numpy as np
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers=False)
@@ -15,6 +15,7 @@ def create_parser():
     parser = argparse.ArgumentParser(description='tutorial:')
     parser.add_argument('--name', '-f', dest='name', default='', help='Name of video or file without extension')
     return parser
+
 
 def create_image(input_images, increase_const=3):
     images = []
