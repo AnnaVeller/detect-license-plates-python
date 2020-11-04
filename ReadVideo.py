@@ -3,6 +3,7 @@ import math
 import time
 
 import cv2
+import os
 
 import ProcessOneFrame
 
@@ -13,6 +14,9 @@ PATH_TO_SAVE = 'car_numbers/'
 
 
 def save_imgs(list_img, list_zone, name_video, count_cars):
+
+    path_to_save_data = os.path.join(PATH_TO_SAVE, name_video)
+
     len_of_list = len(list_img)
     average = math.ceil((len_of_list-1) / 2)
     log.debug(' Average count %d' % average)
@@ -35,8 +39,8 @@ def save_imgs(list_img, list_zone, name_video, count_cars):
         if i == first or i == average or i == last:  # save 3 images
             img = list_img[i]
             zone = list_zone[i]
-            path_to_img = PATH_TO_SAVE + name_video + '_' + str(count_cars) + '_' + str(suffix) + '.jpg'
-            path_to_zone = PATH_TO_SAVE + name_video + '_' + str(count_cars) + '_' + str(suffix) + '_zone.jpg'
+            path_to_img = path_to_save_data + str(count_cars) + '_' + str(suffix) + '.jpg'
+            path_to_zone = path_to_save_data + str(count_cars) + '_' + str(suffix) + '_zone.jpg'
             cv2.imwrite(path_to_img, img)
             cv2.imwrite(path_to_zone, zone)
             log.debug(' Save images %s %s' % (path_to_img, path_to_zone))
@@ -44,9 +48,17 @@ def save_imgs(list_img, list_zone, name_video, count_cars):
 
 
 def read_video(video, file, type, name_video, SEC_TO_WRITE):
-    path_to_file_txt = PATH_TO_SAVE + file
-    log.debug(' Opening %s' % path_to_file_txt)
-    file = open(path_to_file_txt, 'w')
+
+    path_to_save_data = os.path.join(PATH_TO_SAVE, name_video)
+    try:
+        os.mkdir(path_to_save_data)
+        log.debug("Create dir %s" % path_to_save_data)
+    except OSError:
+        log.debug("Can't create dir %s" % path_to_save_data)
+        exit(1)
+
+    log.debug(' Opening %s' % file)
+    file = open(path_to_save_data + file, 'w')
     cap = cv2.VideoCapture(video)
     if cap.isOpened():
         h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
