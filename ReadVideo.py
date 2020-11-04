@@ -15,7 +15,7 @@ PATH_TO_SAVE = 'car_numbers/'
 
 def save_imgs(list_img, list_zone, name_video, count_cars):
 
-    path_to_save_data = os.path.join(PATH_TO_SAVE, name_video)
+    path_to_save_data = os.path.join(PATH_TO_SAVE, name_video) + '/'
 
     len_of_list = len(list_img)
     average = math.ceil((len_of_list-1) / 2)
@@ -49,7 +49,7 @@ def save_imgs(list_img, list_zone, name_video, count_cars):
 
 def read_video(video, file, type, name_video, SEC_TO_WRITE):
 
-    path_to_save_data = os.path.join(PATH_TO_SAVE, name_video)
+    path_to_save_data = os.path.join(PATH_TO_SAVE, name_video) + '/'
     try:
         os.mkdir(path_to_save_data)
         log.debug("Create dir %s" % path_to_save_data)
