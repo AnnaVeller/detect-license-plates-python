@@ -20,6 +20,7 @@ def create_parser():
     parser.add_argument('--type', '-t', dest='type', default='v', help='s-stream, v-videofile')
     parser.add_argument('--gpu', '-g', dest='gpu', default=False, help='If you use gpu write --gpu=True')
     parser.add_argument('--sec', '-s', dest='sec', default=0.5, help='Sec between process the cadrs')
+    parser.add_argument('--frame', '-fr', dest='frame', default=False, help='Size of frame')
     return parser
 
 
@@ -66,5 +67,5 @@ if __name__ == '__main__':
     path_video, filename, name_of_video, sec = parse_args(args)
 
     log.info(' Run video %s' % args.video)
-    ReadVideo.read_video(path_video, filename, args.type, name_of_video, sec)
+    ReadVideo.read_video(path_video, filename, args.type, name_of_video, sec, args.frame)
     log.info(' Close video %s \n\n' % args.video)

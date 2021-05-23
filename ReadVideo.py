@@ -14,11 +14,10 @@ PATH_TO_SAVE = 'car_numbers/'
 
 
 def save_imgs(list_img, list_zone, name_video, count_cars):
-
     path_to_save_data = os.path.join(PATH_TO_SAVE, name_video) + '/'
 
     len_of_list = len(list_img)
-    average = math.ceil((len_of_list-1) / 2)
+    average = math.ceil((len_of_list - 1) / 2)
     log.debug(' Average count %d' % average)
     suffix = 1
 
@@ -47,8 +46,7 @@ def save_imgs(list_img, list_zone, name_video, count_cars):
             suffix += 1
 
 
-def read_video(video, file, type, name_video, SEC_TO_WRITE):
-
+def read_video(video, file, type, name_video, SEC_TO_WRITE, frame_size):
     path_to_save_data = os.path.join(PATH_TO_SAVE, name_video) + '/'
     try:
         os.mkdir(path_to_save_data)
@@ -85,6 +83,10 @@ def read_video(video, file, type, name_video, SEC_TO_WRITE):
     list_zone = []
     while ret:
         ret, frame = cap.read()
+        if frame_size != False:
+            frame = frame[frame_size[0]:frame_size[1], frame_size[2]:frame_size[3]]  # img[y:y+h, x:x+w]
+            h = frame_size[1] - frame_size[0]
+            w = frame_size[3] - frame_size[2]
         length = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
 
         try:
