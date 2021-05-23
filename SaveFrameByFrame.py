@@ -1,5 +1,4 @@
 import os
-
 import cv2
 
 PATH = 'test_folder/'  # choose path to save frames

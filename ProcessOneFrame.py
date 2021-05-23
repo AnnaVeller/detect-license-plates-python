@@ -43,7 +43,7 @@ def one_frame(frame, one_number, count, h):
 
     car_number = 'no'
     if count < CADRS_TO_FIND_NEW_CAR:
-        log.debug(' ONE_NUMBER is %s' %str(one_number))
+        log.debug(' ONE_NUMBER is %s' % str(one_number))
         if len(one_number) >= MIN_CADRS_TO_DETECT:
             flag_new_car = 'ENOUGH_FRAMES_FOR_RECOGNITION'
             car_number = WrongNumbers.choose_number(one_number)
